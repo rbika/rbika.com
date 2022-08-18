@@ -1,0 +1,35 @@
+/* 
+ * Code blocks
+ */
+
+.prose code {
+  color: #e2e4e7;
+  font-weight: normal;
+  font-size: 0.8125rem;
+}
+
+.prose code {
+  counter-reset: line;
+}
+
+.prose code:not(.language-bash) > .code-line::before {
+  counter-increment: line;
+  content: counter(line);
+  display: inline-block;
+  width: 1rem;
+  margin-right: 1.5rem;
+  text-align: right;
+  color: #8da1b9;
+}
+
+.prose code .highlight-line {
+  border-left-color: #6cb8e6;
+}
+
+/* 
+ * Images
+ */
+
+.prose img {
+  border-radius: 6px;
+}

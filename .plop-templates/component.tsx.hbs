@@ -1,0 +1,11 @@
+type {{pascalCase name}}Props = {
+  // Component props
+} & React.HTMLAttributes<HTMLDivElement>
+
+const {{pascalCase name}} = (props: {{pascalCase name}}Props) => {
+  console.log(props)
+
+  return <div>{{pascalCase name}}</div>
+}
+
+export default {{pascalCase name}}
