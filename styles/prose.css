@@ -3,9 +3,31 @@
  */
 
 .prose code {
-  color: #e2e4e7;
+  color: black;
   font-weight: normal;
   font-size: 0.8125rem;
+}
+@media (prefers-color-scheme: dark) {
+  .prose code {
+    color: #e2e4e7;
+  }
+}
+
+.prose :not(pre) code {
+  padding: 2px 6px;
+  margin: 0 2px;
+  border-radius: 4px;
+  background-color: #e3eaf2;
+}
+.prose :not(pre) code::before,
+.prose :not(pre) code::after {
+  content: '';
+}
+
+@media (prefers-color-scheme: dark) {
+  .prose :not(pre) code {
+    background-color: #182738;
+  }
 }
 
 .prose code {
@@ -20,10 +42,6 @@
   margin-right: 1.5rem;
   text-align: right;
   color: #8da1b9;
-}
-
-.prose code .highlight-line {
-  border-left-color: #6cb8e6;
 }
 
 /* 
