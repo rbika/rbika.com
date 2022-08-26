@@ -36,7 +36,7 @@ const Uses: NextPage<UsesProps> = ({ usesData }) => {
         <p className="text-secondary mt-2 mb-8">
           Last update:{' '}
           {usesData?.lastUpdate
-            ? format(new Date(usesData.lastUpdate), 'MMM do, yyyy')
+            ? format(new Date(usesData.lastUpdate), 'MMM d, yyyy')
             : '---'}
           .
         </p>
