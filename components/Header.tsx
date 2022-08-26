@@ -21,7 +21,7 @@ const Header = (props: React.HTMLAttributes<HTMLDivElement>) => {
           R Bika(s)
         </a>
       </Link>
-      <ul className="text-secondary flex justify-center gap-16 uppercase text-[13px]">
+      <ul className="text-secondary flex justify-center gap-8 sm:gap-16 uppercase text-[13px]">
         {menu.map((menuItem) => {
           const isActive = router.pathname === menuItem.url
           return (
