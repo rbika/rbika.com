@@ -6,6 +6,7 @@ import {
   faGithub,
   faLinkedin,
 } from '@fortawesome/free-brands-svg-icons'
+import profileImage from '../public/profile.png'
 
 const socialItens = [
   {
@@ -37,9 +38,11 @@ const AboutMe = (props: React.HTMLAttributes<HTMLDivElement>) => {
         <Image
           width={100}
           height={100}
-          src="/profile.png"
+          src={profileImage}
           alt="profile"
           className="rounded-full"
+          placeholder="blur"
+          priority
         />
       </div>
       <div>
