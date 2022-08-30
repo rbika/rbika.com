@@ -41,8 +41,6 @@ const AboutMe = (props: React.HTMLAttributes<HTMLDivElement>) => {
           src={profileImage}
           alt="profile"
           className="rounded-full"
-          placeholder="blur"
-          priority
         />
       </div>
       <div>
