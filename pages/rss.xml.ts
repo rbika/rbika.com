@@ -1,5 +1,6 @@
 import PostMetaData from '../types/postMetaData'
 import { getSortedPostsMetaData } from '../utils/blog'
+import { formatISO } from 'date-fns'
 
 const Rss = () => null
 
@@ -18,14 +19,16 @@ function generateRss(posts: PostMetaData[]) {
         <title>R Bika(s) Blog</title>
         <link>https://rbika.com</link>
       </image>
-      ${posts.map((post) => {
+      ${posts.map(({ title, slug, description, date }) => {
         return `
           <item>
-            <title>${post.title}</title>
-            <link>https://rbika.com/${post.slug}</link>
-            <guid>https://rbika.com/${post.slug}</guid>
-            <description>${post.description}</description>
-            <pubDate>${post.date}</pubDate>
+            <title>${title}</title>
+            <link>https://rbika.com/${slug}</link>
+            <guid>https://rbika.com/${slug}</guid>
+            <description>${description}</description>
+            <pubDate>${formatISO(new Date(date ? date : ''), {
+              representation: 'date',
+            })}</pubDate>
           </item>
         `
       })}
