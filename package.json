@@ -12,6 +12,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "prod": "npm run build && npm run start",
     "lint": "tsc && next lint ./",
     "lint:fix": "tsc && next lint --fix ./",
     "test": "jest",

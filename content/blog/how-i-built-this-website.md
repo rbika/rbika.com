@@ -1,6 +1,7 @@
 ---
 title: How I built this website
 date: '2022-08-19T00:00:00-03:00'
+description: 'The inspirations and technologies I used to build this website.'
 ---
 
 Every time I want to learn a new technology I build a small side project. Building something from scratch is one of the best ways to learn new skills and improve the ones you already know. Tutorials are a good starting point but they are designed to work perfectly, so you usually don’t face any challenges. Building something on your own is much harder. You will hit real-life problems on the way and you will need to solve them to keep going.

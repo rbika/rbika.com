@@ -1,6 +1,7 @@
 ---
 title: How to add Google Analytics to a Next.js app
 date: '2022-08-25T00:00:00-03:00'
+description: 'A quick tutorial on how to add Google Analytics to a Next.js application.'
 ---
 
 This tutorial covers how to set up Google Analytics in a Next.js application.

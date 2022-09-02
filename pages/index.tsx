@@ -7,6 +7,8 @@ import { getSortedPostsMetaData } from '../utils/blog'
 import Link from 'next/link'
 import { format } from 'date-fns'
 import Seo from '../components/Seo'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faRssSquare } from '@fortawesome/free-solid-svg-icons'
 
 type BlogProps = {
   postsMetaData: PostMetaData[]
@@ -21,14 +23,12 @@ const Home: NextPage<BlogProps> = ({ postsMetaData }) => {
 
         <h2 className="text-xl pb-6 pt-12">
           <span className="pr-2">Articles</span>
-          {/* <Link href="/blog">
-            <a>
-              <FontAwesomeIcon
-                className="text-secondary text-md duration-500 transition-colors hover:text-primary"
-                icon={faRssSquare}
-              />
-            </a>
-          </Link> */}
+          <a href="https://rbika.com/rss.xml">
+            <FontAwesomeIcon
+              className="text-secondary text-md duration-500 transition-colors hover:text-primary"
+              icon={faRssSquare}
+            />
+          </a>
         </h2>
         <ul className="border-t border-zinc-800">
           {postsMetaData.map(({ slug, date, title }) => (
