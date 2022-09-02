@@ -23,6 +23,7 @@ function generateRss(posts: PostMetaData[]) {
           <item>
             <title>${post.title}</title>
             <link>https://rbika.com/${post.slug}</link>
+            <guid>https://rbika.com/${post.slug}</guid>
             <description>${post.description}</description>
             <pubDate>${post.date}</pubDate>
           </item>
