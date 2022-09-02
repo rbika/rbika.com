@@ -53,6 +53,7 @@ export const getSortedPostsMetaData = (): PostMetaData[] => {
       slug: fileNameSlug(fileName),
       title: data.title ?? null,
       date: data.date ?? null,
+      description: data.description ?? null,
     }
   })
 
@@ -85,6 +86,7 @@ export const getPostData = async (slug: string): Promise<Post> => {
     slug,
     date: data.date ?? null,
     title: data.title ?? null,
+    description: data.description ?? null,
     content: result.value.toString(),
   }
 }
