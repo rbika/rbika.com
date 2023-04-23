@@ -6,7 +6,7 @@ import {
   faGithub,
   faLinkedin,
 } from '@fortawesome/free-brands-svg-icons'
-import profileImage from '../public/profile.png'
+import profileImage from '../../public/profile.png'
 
 const socialItems = [
   {

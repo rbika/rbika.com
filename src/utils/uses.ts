@@ -1,13 +1,13 @@
 import fs from 'fs'
 import path from 'path'
 import matter from 'gray-matter'
-import UsesData from '../types/usesData'
+import UsesData from '@/types/usesData'
 import { unified } from 'unified'
 import markdown from 'remark-parse'
 import remark2rehype from 'remark-rehype'
 import rehypeStringify from 'rehype-stringify'
 
-const filePath = path.join(process.cwd(), 'content/uses.md')
+const filePath = path.join(process.cwd(), 'src/content/uses.md')
 
 /**
  * Gets post data with processed markdown content.

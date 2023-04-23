@@ -6,11 +6,11 @@ import markdown from 'remark-parse'
 import remark2rehype from 'remark-rehype'
 import rehypeStringify from 'rehype-stringify'
 import rehypePrism from 'rehype-prism-plus'
-import PostsStaticPathsParams from '../types/postsStaticPathsParams'
-import PostMetaData from '../types/postMetaData'
-import Post from '../types/post'
+import PostsStaticPathsParams from '@/types/postsStaticPathsParams'
+import PostMetaData from '@/types/postMetaData'
+import Post from '@/types/post'
 
-const postsDirectory = path.join(process.cwd(), 'content/blog')
+const postsDirectory = path.join(process.cwd(), 'src/content/blog')
 
 /**
  * Gets the file name slug.
