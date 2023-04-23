@@ -6,6 +6,7 @@ import Post from '../../types/post'
 import PostsStaticPathsParams from '../../types/postsStaticPathsParams'
 import { getAllPostsSlugs, getPostData } from '../../utils/blog'
 import ArticleFooter from '../../components/ArticleFooter'
+import PageContainer from '../../components/PageContainer'
 
 type PostProps = {
   postData: Post
@@ -16,7 +17,7 @@ const Post: NextPage<PostProps> = ({ postData }: any) => {
   const { slug } = router.query
 
   return (
-    <>
+    <PageContainer>
       <Seo path={`/blog/${slug}`} />
       <div className="mx-auto max-w-3xl px-4">
         <header className="mb-12">
@@ -34,7 +35,7 @@ const Post: NextPage<PostProps> = ({ postData }: any) => {
 
         <ArticleFooter className="mt-12" />
       </div>
-    </>
+    </PageContainer>
   )
 }
 

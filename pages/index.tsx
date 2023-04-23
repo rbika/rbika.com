@@ -8,6 +8,7 @@ import { format } from 'date-fns'
 import Seo from '../components/Seo'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faRssSquare } from '@fortawesome/free-solid-svg-icons'
+import PageContainer from '../components/PageContainer'
 
 type BlogProps = {
   postsMetaData: PostMetaData[]
@@ -15,7 +16,7 @@ type BlogProps = {
 
 const Home: NextPage<BlogProps> = ({ postsMetaData }) => {
   return (
-    <>
+    <PageContainer>
       <Seo path="/" />
       <div className="mx-auto max-w-3xl px-4">
         <AboutMe />
@@ -44,7 +45,7 @@ const Home: NextPage<BlogProps> = ({ postsMetaData }) => {
           ))}
         </ul>
       </div>
-    </>
+    </PageContainer>
   )
 }
 
