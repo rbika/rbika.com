@@ -1,4 +1,4 @@
-import { getAllPostsSlugs } from '../utils/blog'
+import { getAllPostsSlugs } from '@/utils/blog'
 
 const SiteMap = () => null
 

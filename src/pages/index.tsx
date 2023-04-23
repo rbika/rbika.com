@@ -1,14 +1,14 @@
 import type { GetStaticProps, NextPage } from 'next'
 
-import AboutMe from '../components/AboutMe'
-import PostMetaData from '../types/postMetaData'
-import { getSortedPostsMetaData } from '../utils/blog'
+import AboutMe from '@/components/AboutMe'
+import PostMetaData from '@/types/postMetaData'
+import { getSortedPostsMetaData } from '@/utils/blog'
 import Link from 'next/link'
 import { format } from 'date-fns'
-import Seo from '../components/Seo'
+import Seo from '@/components/Seo'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faRssSquare } from '@fortawesome/free-solid-svg-icons'
-import PageContainer from '../components/PageContainer'
+import PageContainer from '@/components/PageContainer'
 
 type BlogProps = {
   postsMetaData: PostMetaData[]

@@ -1,5 +1,5 @@
 import { NextPage } from 'next'
-import ProjectCard from '../components/ProjectCard'
+import ProjectCard from '@/components/ProjectCard'
 
 const projects = [
   {

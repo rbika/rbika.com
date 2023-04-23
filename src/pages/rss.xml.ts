@@ -1,4 +1,4 @@
-import PostMetaData from '../types/postMetaData'
+import PostMetaData from '@/types/postMetaData'
 import { getSortedPostsMetaData } from '../utils/blog'
 import { formatISO } from 'date-fns'
 

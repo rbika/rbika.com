@@ -1,9 +1,9 @@
 import type { GetStaticProps, NextPage } from 'next'
 import { format } from 'date-fns'
-import { getUsesData } from '../utils/uses'
-import UsesData from '../types/usesData'
-import Seo from '../components/Seo'
-import PageContainer from '../components/PageContainer'
+import { getUsesData } from '@/utils/uses'
+import UsesData from '@/types/usesData'
+import Seo from '@/components/Seo'
+import PageContainer from '@/components/PageContainer'
 
 type UsesProps = {
   usesData: UsesData

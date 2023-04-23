@@ -1,7 +1,7 @@
 import type { NextPage } from 'next'
 import Link from 'next/link'
-import Seo from '../components/Seo'
-import PageContainer from '../components/PageContainer'
+import Seo from '@/components/Seo'
+import PageContainer from '@/components/PageContainer'
 
 const NotFound: NextPage = () => {
   return (
