@@ -6,6 +6,7 @@ import Seo from '../../components/Seo'
 import Post from '../../types/post'
 import PostsStaticPathsParams from '../../types/postsStaticPathsParams'
 import { getAllPostsSlugs, getPostData } from '../../utils/blog'
+import ArticleFooter from '../../components/ArticleFooter'
 
 type PostProps = {
   postData: Post
@@ -31,6 +32,8 @@ const Post: NextPage<PostProps> = ({ postData }: any) => {
           className="text-secondary max-w-none prose dark:prose-invert prose-h2:font-medium"
           dangerouslySetInnerHTML={{ __html: postData.content }}
         />
+
+        <ArticleFooter className="mt-12" />
       </div>
     </Layout>
   )
