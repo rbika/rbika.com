@@ -13,7 +13,8 @@ const Uses: NextPage<UsesProps> = ({ usesData }) => {
   return (
     <PageContainer>
       <Seo path="/uses" />
-      <div className="mx-auto max-w-3xl px-4">
+
+      <div>
         <h1 className="text-primary text-5xl leading-tight font-medium mb-8 ">
           Uses
         </h1>

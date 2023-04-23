@@ -19,7 +19,8 @@ const Post: NextPage<PostProps> = ({ postData }: any) => {
   return (
     <PageContainer>
       <Seo path={`/blog/${slug}`} />
-      <div className="mx-auto max-w-3xl px-4">
+
+      <div>
         <header className="mb-12">
           <h1 className="text-4xl leading-tight">{postData.title}</h1>
           <p className="text-secondary mt-4 sm:mt-2 text-sm">

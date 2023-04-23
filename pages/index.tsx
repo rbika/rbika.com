@@ -18,7 +18,8 @@ const Home: NextPage<BlogProps> = ({ postsMetaData }) => {
   return (
     <PageContainer>
       <Seo path="/" />
-      <div className="mx-auto max-w-3xl px-4">
+
+      <div>
         <AboutMe />
 
         <h2 className="text-xl pb-6 pt-12">

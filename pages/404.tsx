@@ -11,7 +11,7 @@ const NotFound: NextPage = () => {
         description="The page you are looking for does not exist"
         path="/404"
       />
-      <div className="mx-auto max-w-3xl px-4 pb-40 flex flex-col h-[calc(100vh_-_176px)] justify-center items-center">
+      <div className="pb-40 flex flex-col h-[calc(100vh_-_176px)] justify-center items-center">
         <h1 className="mb-2 tracking-widest font-thin text-6xl text-primary">
           404
         </h1>
