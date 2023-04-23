@@ -8,7 +8,7 @@ import {
 } from '@fortawesome/free-brands-svg-icons'
 import profileImage from '../public/profile.png'
 
-const socialItens = [
+const socialItems = [
   {
     label: 'Email',
     icon: faEnvelope,
@@ -60,7 +60,7 @@ const AboutMe = (props: React.HTMLAttributes<HTMLDivElement>) => {
           </span>
         </p>
         <ul className="flex gap-10 mt-4 justify-center sm:justify-start">
-          {socialItens.map((item) => {
+          {socialItems.map((item) => {
             const { label, icon, url } = item
             return (
               <li key={url}>
