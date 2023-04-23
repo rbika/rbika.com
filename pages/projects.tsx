@@ -1,5 +1,4 @@
 import { NextPage } from 'next'
-import Layout from '../components/Layout'
 import ProjectCard from '../components/ProjectCard'
 
 const projects = [
@@ -22,7 +21,7 @@ const projects = [
 
 const Projects: NextPage = () => {
   return (
-    <Layout>
+    <>
       <div className="mx-auto max-w-3xl px-4">
         <h1 className="text-[#5DD8FF] text-5xl leading-tight font-medium mb-8 ">
           Projects
@@ -37,7 +36,7 @@ const Projects: NextPage = () => {
           })}
         </ul>
       </div>
-    </Layout>
+    </>
   )
 }
 

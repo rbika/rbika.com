@@ -1,9 +1,9 @@
 import type { GetStaticProps, NextPage } from 'next'
 import { format } from 'date-fns'
 import { getUsesData } from '../utils/uses'
-import Layout from '../components/Layout'
 import UsesData from '../types/usesData'
 import Seo from '../components/Seo'
+import PageContainer from '../components/PageContainer'
 
 type UsesProps = {
   usesData: UsesData
@@ -11,9 +11,10 @@ type UsesProps = {
 
 const Uses: NextPage<UsesProps> = ({ usesData }) => {
   return (
-    <Layout>
+    <PageContainer>
       <Seo path="/uses" />
-      <div className="mx-auto max-w-3xl px-4">
+
+      <div>
         <h1 className="text-primary text-5xl leading-tight font-medium mb-8 ">
           Uses
         </h1>
@@ -50,7 +51,7 @@ const Uses: NextPage<UsesProps> = ({ usesData }) => {
           dangerouslySetInnerHTML={{ __html: usesData?.content }}
         />
       </div>
-    </Layout>
+    </PageContainer>
   )
 }
 

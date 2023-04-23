@@ -1,5 +1,4 @@
 import type { GetStaticProps, NextPage } from 'next'
-import Layout from '../components/Layout'
 
 import AboutMe from '../components/AboutMe'
 import PostMetaData from '../types/postMetaData'
@@ -9,6 +8,7 @@ import { format } from 'date-fns'
 import Seo from '../components/Seo'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faRssSquare } from '@fortawesome/free-solid-svg-icons'
+import PageContainer from '../components/PageContainer'
 
 type BlogProps = {
   postsMetaData: PostMetaData[]
@@ -16,9 +16,10 @@ type BlogProps = {
 
 const Home: NextPage<BlogProps> = ({ postsMetaData }) => {
   return (
-    <Layout>
+    <PageContainer>
       <Seo path="/" />
-      <div className="mx-auto max-w-3xl px-4">
+
+      <div>
         <AboutMe />
 
         <h2 className="text-xl pb-6 pt-12">
@@ -45,7 +46,7 @@ const Home: NextPage<BlogProps> = ({ postsMetaData }) => {
           ))}
         </ul>
       </div>
-    </Layout>
+    </PageContainer>
   )
 }
 
