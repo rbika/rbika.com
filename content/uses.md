@@ -1,5 +1,5 @@
 ---
-lastUpdate: '2022-08-25T00:00:00-03:00'
+lastUpdate: '2023-04-22T00:00:00-03:00'
 ---
 
 ## Code Editor
@@ -17,6 +17,6 @@ lastUpdate: '2022-08-25T00:00:00-03:00'
 - [Figma](https://www.figma.com/) - When I need to do some simple edits.
 - [Fork](https://git-fork.com/) - Best Git client for macOS.
 - [Google Chrome](https://www.google.com/chrome/) - My preferred browser.
-- [Music](https://www.apple.com/apple-music/) - I switched from Spotify since I'm subscribed to the Apple One service.
 - [Notion](https://www.notion.so/) - Multi-platform note-taking app with markdown support.
+- [Spotify](https://www.apple.com/apple-music/) - Music streaming.
 - [Rectangle](https://rectangleapp.com/) - macOS's window management is terrible.
