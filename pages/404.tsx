@@ -1,11 +1,10 @@
 import type { NextPage } from 'next'
 import Link from 'next/link'
-import Layout from '../components/Layout'
 import Seo from '../components/Seo'
 
 const NotFound: NextPage = () => {
   return (
-    <Layout>
+    <>
       <Seo
         title="404 | Page not found"
         description="The page you are looking for does not exist"
@@ -23,7 +22,7 @@ const NotFound: NextPage = () => {
           .
         </h2>
       </div>
-    </Layout>
+    </>
   )
 }
 

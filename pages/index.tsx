@@ -1,5 +1,4 @@
 import type { GetStaticProps, NextPage } from 'next'
-import Layout from '../components/Layout'
 
 import AboutMe from '../components/AboutMe'
 import PostMetaData from '../types/postMetaData'
@@ -16,7 +15,7 @@ type BlogProps = {
 
 const Home: NextPage<BlogProps> = ({ postsMetaData }) => {
   return (
-    <Layout>
+    <>
       <Seo path="/" />
       <div className="mx-auto max-w-3xl px-4">
         <AboutMe />
@@ -45,7 +44,7 @@ const Home: NextPage<BlogProps> = ({ postsMetaData }) => {
           ))}
         </ul>
       </div>
-    </Layout>
+    </>
   )
 }
 

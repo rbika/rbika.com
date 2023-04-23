@@ -1,7 +1,6 @@
 import { format } from 'date-fns'
 import { GetStaticPaths, GetStaticProps, NextPage } from 'next'
 import { useRouter } from 'next/router'
-import Layout from '../../components/Layout'
 import Seo from '../../components/Seo'
 import Post from '../../types/post'
 import PostsStaticPathsParams from '../../types/postsStaticPathsParams'
@@ -17,7 +16,7 @@ const Post: NextPage<PostProps> = ({ postData }: any) => {
   const { slug } = router.query
 
   return (
-    <Layout>
+    <>
       <Seo path={`/blog/${slug}`} />
       <div className="mx-auto max-w-3xl px-4">
         <header className="mb-12">
@@ -35,7 +34,7 @@ const Post: NextPage<PostProps> = ({ postData }: any) => {
 
         <ArticleFooter className="mt-12" />
       </div>
-    </Layout>
+    </>
   )
 }
 

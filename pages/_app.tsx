@@ -4,12 +4,13 @@ import '../styles/prism-coldark-dark.css'
 import '../styles/prose.css'
 import type { AppProps } from 'next/app'
 import Script from 'next/script'
+import Layout from '../components/Layout'
 
 const env = process.env.NODE_ENV
 
 function App({ Component, pageProps }: AppProps) {
   return (
-    <>
+    <Layout>
       {env === 'production' && (
         <>
           <Script src="https://www.googletagmanager.com/gtag/js?id=G-VTE1P0SNES" />
@@ -28,7 +29,7 @@ function App({ Component, pageProps }: AppProps) {
         </>
       )}
       <Component {...pageProps} />
-    </>
+    </Layout>
   )
 }
 

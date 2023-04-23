@@ -41,19 +41,17 @@ const ArticleFooter = (props: React.HTMLAttributes<HTMLDivElement>) => {
 
   return (
     <div {...props}>
-      <div className="flex gap-8 items-center flex-row">
-        <div className="flex-shrink-0">
-          <Image
-            width={56}
-            height={56}
-            src={profileImage}
-            alt="profile"
-            className="rounded-full"
-          />
-        </div>
+      <div className="flex gap-4 items-center flex-row">
+        <Image
+          width={56}
+          height={56}
+          src={profileImage}
+          alt="profile"
+          className="rounded-full"
+        />
         <div>
           <p className="text-secondary text-left text-sm">
-            Written by Rafael Bikas.
+            Written by Rafael Bika(s).
           </p>
           <ul className="flex gap-3 mt-1 justify-start">
             {socialItems.map((item) => {
