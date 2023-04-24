@@ -1,12 +1,12 @@
 import { format } from 'date-fns'
 import { GetStaticPaths, GetStaticProps, NextPage } from 'next'
 import { useRouter } from 'next/router'
-import Seo from '../../components/Seo'
-import Post from '../../types/post'
-import PostsStaticPathsParams from '../../types/postsStaticPathsParams'
-import { getAllPostsSlugs, getPostData } from '../../utils/blog'
-import ArticleFooter from '../../components/ArticleFooter'
-import PageContainer from '../../components/PageContainer'
+import Seo from '@/components/Seo'
+import Post from '@/types/post'
+import PostsStaticPathsParams from '@/types/postsStaticPathsParams'
+import { getAllPostsSlugs, getPostData } from '@/utils/blog'
+import ArticleFooter from '@/components/ArticleFooter'
+import PageContainer from '@/components/PageContainer'
 
 type PostProps = {
   postData: Post

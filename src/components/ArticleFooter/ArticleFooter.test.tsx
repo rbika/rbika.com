@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import ArticleFooter from '.'
 import '@testing-library/jest-dom'
 
@@ -30,6 +30,6 @@ describe('ArticleFooter', () => {
       'href',
       'https://linkedin.com/in/rbika'
     )
-    expect(getLinkedinLink()).toBeInTheDocument()
+    expect(getBackToTopLink()).toBeInTheDocument()
   })
 })

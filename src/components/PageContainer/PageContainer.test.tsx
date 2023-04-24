@@ -4,11 +4,11 @@ import '@testing-library/jest-dom'
 
 // Queries
 
-const getContent = () => screen.getByText('PageContainer')
+const getContent = () => screen.getByText('children')
 
 // Tests
 
-describe.skip('PageContainer', () => {
+describe('PageContainer', () => {
   it('renders without errors', () => {
     render(<PageContainer>children</PageContainer>)
 
