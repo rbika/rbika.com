@@ -16,6 +16,7 @@
     "lint": "tsc && next lint ./",
     "lint:fix": "tsc && next lint --fix ./",
     "test": "jest",
+    "test:html": "jest --coverage --coverageReporters=\"html\"",
     "test:watch": "jest --watch",
     "test:staged": "jest --findRelatedTests --passWithNoTests",
     "generate": "plop",
