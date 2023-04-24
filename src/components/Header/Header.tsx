@@ -1,7 +1,7 @@
 import cn from 'classnames'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import HeaderMenuItem from '../types/headerMenuItem'
+import HeaderMenuItem from '@/types/headerMenuItem'
 
 const menu: HeaderMenuItem[] = [
   { label: 'Home', url: '/' },

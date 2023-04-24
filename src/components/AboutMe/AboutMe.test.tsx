@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react'
-import AboutMe from '../../components/AboutMe'
+import AboutMe from '.'
 import '@testing-library/jest-dom'
 
 // Queries

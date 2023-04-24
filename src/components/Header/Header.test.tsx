@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react'
-import Header from '../../components/Header'
+import Header from '.'
 import '@testing-library/jest-dom'
 import * as router from 'next/router'
 import { NextRouter } from 'next/router'

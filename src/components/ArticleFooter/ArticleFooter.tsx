@@ -1,35 +1,7 @@
 import Image from 'next/image'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEnvelope } from '@fortawesome/free-solid-svg-icons'
-import {
-  faTwitter,
-  faGithub,
-  faLinkedin,
-} from '@fortawesome/free-brands-svg-icons'
-import profileImage from '../../public/profile.png'
-
-const socialItems = [
-  {
-    label: 'Email',
-    icon: faEnvelope,
-    url: 'mailto:rbikadev@gmail.com',
-  },
-  {
-    label: 'Twitter',
-    icon: faTwitter,
-    url: 'https://twitter.com/rbika',
-  },
-  {
-    label: 'Github',
-    icon: faGithub,
-    url: 'https://github.com/rbika',
-  },
-  {
-    label: 'Linkedin',
-    icon: faLinkedin,
-    url: 'https://linkedin.com/in/rbika',
-  },
-]
+import profileImage from '@/../public/profile.png'
+import { socialItems } from '@/utils/constants'
 
 const ArticleFooter = (props: React.HTMLAttributes<HTMLDivElement>) => {
   const handleBackToTopCLick = () => {

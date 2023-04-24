@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react'
-import Layout from '../../components/Layout'
+import Layout from '.'
 import '@testing-library/jest-dom'
 import * as router from 'next/router'
 import { NextRouter } from 'next/router'
