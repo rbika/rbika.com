@@ -8,10 +8,10 @@ const getProfileImage = () => screen.getByAltText('profile')
 const getFirstLine = () => screen.getByText(/Hey, my name is Rafael but/i)
 const getSecondLine = () => screen.getByText(/I'm a frontend developer/i)
 const getInterLink = () => screen.getByText('Inter')
-const getEmailLink = () => screen.getByText('Email').parentElement
-const getTwitterLink = () => screen.getByText('Twitter').parentElement
-const getGithubLink = () => screen.getByText('Github').parentElement
-const getLinkedinLink = () => screen.getByText('Linkedin').parentElement
+const getEmailLink = () => screen.getByLabelText('Email').parentElement
+const getTwitterLink = () => screen.getByLabelText('Twitter').parentElement
+const getGithubLink = () => screen.getByLabelText('Github').parentElement
+const getLinkedinLink = () => screen.getByLabelText('Linkedin').parentElement
 
 // Tests
 

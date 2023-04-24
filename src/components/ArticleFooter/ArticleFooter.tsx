@@ -27,7 +27,7 @@ const ArticleFooter = (props: React.HTMLAttributes<HTMLDivElement>) => {
           </p>
           <ul className="flex gap-3 mt-2 justify-start">
             {socialItems.map((item) => {
-              const { icon, url } = item
+              const { label, icon, url } = item
               return (
                 <li key={url}>
                   <a
@@ -37,6 +37,7 @@ const ArticleFooter = (props: React.HTMLAttributes<HTMLDivElement>) => {
                     className="flex items-center no-underline text-secondary hover:text-primary focus:text-primary"
                   >
                     <FontAwesomeIcon icon={icon} className="text-[18px]" />
+                    <span aria-label={label} />
                   </a>
                 </li>
               )

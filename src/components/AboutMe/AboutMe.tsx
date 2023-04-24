@@ -46,7 +46,7 @@ const AboutMe = (props: React.HTMLAttributes<HTMLDivElement>) => {
                     icon={icon}
                     className=" text-[24px] sm:text-[20px]"
                   />
-                  <span className="text-sm hidden sm:block">{label}</span>
+                  <span aria-label={label} />
                 </a>
               </li>
             )
