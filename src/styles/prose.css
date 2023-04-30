@@ -34,7 +34,7 @@
   counter-reset: line;
 }
 
-.prose code:not(.language-bash) > .code-line::before {
+.prose code:not(.language-bash, .language-text) > .code-line::before {
   counter-increment: line;
   content: counter(line);
   display: inline-block;
