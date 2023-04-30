@@ -1,0 +1,17 @@
+import { render, screen } from '@testing-library/react'
+import {{pascalCase name}} from '.'
+import '@testing-library/jest-dom'
+
+// Queries
+
+const getContent = () => screen.getByText('{{pascalCase name}}')
+
+// Tests
+
+describe('{{pascalCase name}}', () => {
+  it('renders without errors', () => {
+    render(<{{pascalCase name}} />)
+
+    expect(getContent()).toBeInTheDocument()
+  })
+})

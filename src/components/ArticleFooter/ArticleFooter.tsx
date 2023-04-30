@@ -1,35 +1,7 @@
 import Image from 'next/image'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEnvelope } from '@fortawesome/free-solid-svg-icons'
-import {
-  faTwitter,
-  faGithub,
-  faLinkedin,
-} from '@fortawesome/free-brands-svg-icons'
-import profileImage from '../../public/profile.png'
-
-const socialItems = [
-  {
-    label: 'Email',
-    icon: faEnvelope,
-    url: 'mailto:rbikadev@gmail.com',
-  },
-  {
-    label: 'Twitter',
-    icon: faTwitter,
-    url: 'https://twitter.com/rbika',
-  },
-  {
-    label: 'Github',
-    icon: faGithub,
-    url: 'https://github.com/rbika',
-  },
-  {
-    label: 'Linkedin',
-    icon: faLinkedin,
-    url: 'https://linkedin.com/in/rbika',
-  },
-]
+import profileImage from '@/../public/profile.png'
+import { socialItems } from '@/utils/constants'
 
 const ArticleFooter = (props: React.HTMLAttributes<HTMLDivElement>) => {
   const handleBackToTopCLick = () => {
@@ -55,7 +27,7 @@ const ArticleFooter = (props: React.HTMLAttributes<HTMLDivElement>) => {
           </p>
           <ul className="flex gap-3 mt-2 justify-start">
             {socialItems.map((item) => {
-              const { icon, url } = item
+              const { label, icon, url } = item
               return (
                 <li key={url}>
                   <a
@@ -65,6 +37,7 @@ const ArticleFooter = (props: React.HTMLAttributes<HTMLDivElement>) => {
                     className="flex items-center no-underline text-secondary hover:text-primary focus:text-primary"
                   >
                     <FontAwesomeIcon icon={icon} className="text-[18px]" />
+                    <span aria-label={label} />
                   </a>
                 </li>
               )

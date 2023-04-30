@@ -23,8 +23,8 @@ function generateRss(posts: PostMetaData[]) {
         return `
           <item>
             <title>${title}</title>
-            <link>https://rbika.com/${slug}</link>
-            <guid>https://rbika.com/${slug}</guid>
+            <link>https://rbika.com/blog/${slug}</link>
+            <guid>https://rbika.com/blog/${slug}</guid>
             <description>${description}</description>
             <pubDate>${formatISO(new Date(date ? date : ''), {
               representation: 'date',

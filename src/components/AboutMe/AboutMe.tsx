@@ -1,35 +1,7 @@
 import Image from 'next/image'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEnvelope } from '@fortawesome/free-solid-svg-icons'
-import {
-  faTwitter,
-  faGithub,
-  faLinkedin,
-} from '@fortawesome/free-brands-svg-icons'
-import profileImage from '../../public/profile.png'
-
-const socialItems = [
-  {
-    label: 'Email',
-    icon: faEnvelope,
-    url: 'mailto:rbikadev@gmail.com',
-  },
-  {
-    label: 'Twitter',
-    icon: faTwitter,
-    url: 'https://twitter.com/rbika',
-  },
-  {
-    label: 'Github',
-    icon: faGithub,
-    url: 'https://github.com/rbika',
-  },
-  {
-    label: 'Linkedin',
-    icon: faLinkedin,
-    url: 'https://linkedin.com/in/rbika',
-  },
-]
+import profileImage from '../../../public/profile.png'
+import { socialItems } from '@/utils/constants'
 
 const AboutMe = (props: React.HTMLAttributes<HTMLDivElement>) => {
   return (
@@ -74,7 +46,7 @@ const AboutMe = (props: React.HTMLAttributes<HTMLDivElement>) => {
                     icon={icon}
                     className=" text-[24px] sm:text-[20px]"
                   />
-                  <span className="text-sm hidden sm:block">{label}</span>
+                  <span aria-label={label} />
                 </a>
               </li>
             )
