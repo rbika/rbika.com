@@ -40,7 +40,25 @@ module.exports = (plop) => {
       {
         type: 'add',
         path: 'src/pages/{{lowerCase name}}.tsx',
-        templateFile: '.plop-templates/page.tsx.hbs',
+        templateFile: '.plop-templates/page/page.tsx.hbs',
+      },
+    ],
+  })
+
+  plop.setGenerator('article', {
+    description: 'Create an article',
+    prompts: [
+      {
+        type: 'input',
+        name: 'name',
+        message: "Enter article's file name:",
+      },
+    ],
+    actions: [
+      {
+        type: 'add',
+        path: 'src/pages/blog/{{kebabCase name}}.mdx',
+        templateFile: '.plop-templates/article/article.mdx.hbs',
       },
     ],
   })

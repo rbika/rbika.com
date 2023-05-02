@@ -1,0 +1,16 @@
+import Article from '../../components/Article'
+
+export const meta = {
+  title: '{{sentenceCase name}}',
+  slug: '{{kebabCase name}}',
+  date: '2023-MM-DDT00:00:00-03:00',
+  description: 'Short description',
+}
+
+{/* ----------------------------------------------------------------------- */}
+
+Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+
+{/* ----------------------------------------------------------------------- */}
+
+export default ({ children }) => <Article meta={meta}>{children}</Article>
