@@ -1,8 +1,8 @@
 type PostMetaData = {
-  slug: string | null
-  date: string | null
-  title: string | null
-  description: string | null
+  slug: string
+  date: string
+  title: string
+  description: string
 }
 
 export default PostMetaData
