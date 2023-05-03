@@ -1,6 +1,4 @@
-import type { GetStaticProps, NextPage } from 'next'
-import { format } from 'date-fns'
-import { getUsesData } from '@/utils/uses'
+import type { NextPage } from 'next'
 import UsesData from '@/types/usesData'
 import Seo from '@/components/Seo'
 import PageContainer from '@/components/PageContainer'

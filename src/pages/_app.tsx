@@ -1,6 +1,6 @@
 import '@/styles/globals.css'
-import '@/styles/prism-coldark-light.css'
-import '@/styles/prism-coldark-dark.css'
+// import '@/styles/prism-coldark-light.css'
+// import '@/styles/prism-coldark-dark.css'
 import '@/styles/prose.css'
 import type { AppProps } from 'next/app'
 import Script from 'next/script'

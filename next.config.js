@@ -1,5 +1,7 @@
 const rehypePrettyCode = require('rehype-pretty-code')
 
+// Rehype Pretty Code Options
+// --------------------------
 const options = {
   theme: 'nord',
   keepBackground: true,
@@ -18,6 +20,8 @@ const options = {
   },
 }
 
+// MDX Support Setup
+// -----------------
 const withMDX = require('@next/mdx')({
   extension: /\.mdx?$/,
   options: {
@@ -26,6 +30,8 @@ const withMDX = require('@next/mdx')({
   },
 })
 
+// Next Config
+// -----------
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
