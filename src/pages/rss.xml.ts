@@ -38,7 +38,7 @@ function generateRss(posts: PostMetaData[]) {
 }
 
 export async function getServerSideProps({ res }: any) {
-  const postsMeta = getSortedPostsMetaData()
+  const postsMeta = await getSortedPostsMetaData()
   const rss = generateRss(postsMeta)
 
   res.setHeader('Content-Type', 'text/xml')
