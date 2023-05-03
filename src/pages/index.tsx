@@ -50,10 +50,10 @@ const Home: NextPage<BlogProps> = ({ postsMetaData }) => {
   )
 }
 
-export const getStaticProps: GetStaticProps<BlogProps> = () => {
+export const getStaticProps: GetStaticProps<BlogProps> = async () => {
   return {
     props: {
-      postsMetaData: getSortedPostsMetaData(),
+      postsMetaData: await getSortedPostsMetaData(),
     },
   }
 }
