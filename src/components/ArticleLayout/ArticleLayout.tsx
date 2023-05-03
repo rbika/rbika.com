@@ -16,6 +16,7 @@ const Article = ({ children, meta }: ArticleProps) => {
         title={meta.title}
         description={meta.description}
         path={`/blog/${meta.slug}`}
+        type="article"
       />
 
       <header className="mb-12">
