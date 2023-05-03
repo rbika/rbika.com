@@ -1,8 +1,14 @@
----
-title: Understanding CORS
-date: '2023-04-30T00:00:00-03:00'
-description: 'Understanding what is CORS, how it works and how to fix CORS errors.'
----
+export const meta = {
+  title: 'Understanding CORS',
+  slug: 'understanding-cors',
+  date: '2023-04-30T00:00:00-03:00',
+  description:
+    'Understanding what is CORS, how it works and how to fix CORS errors.',
+}
+
+import ArticleLayout from '../../components/ArticleLayout'
+
+{/* ----------------------------------------------------------------------- */}
 
 ## What is CORS?
 
@@ -47,7 +53,7 @@ To see what's wrong with the request, open the network tab of your browser's dev
 
 After verifying what response headers are missing or have the wrong value all you have to do is update the server to respond with the proper headers. In ExpressJS for example this can be easily configured by using the `cors` middleware:
 
-```js {2,5}
+```js {5} showLineNumbers
 var express = require('express')
 var cors = require('cors')
 var app = express()
@@ -67,3 +73,9 @@ A good thing to understand when debugging CORS errors is that they don't happen 
 
 - These tools don't make cross-origin requests. They send a top-level network call (like if you are opening the URL on a new browser tab).
 - Although CORS are configured on the server side, it is the client's decision to honor these configurations or not. Most browsers do enforce it for security reasons, but developer tools don't care about it.
+
+{/* ----------------------------------------------------------------------- */}
+
+export default ({ children }) => (
+  <ArticleLayout meta={meta}>{children}</ArticleLayout>
+)
