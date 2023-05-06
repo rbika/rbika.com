@@ -14,13 +14,15 @@ const ArticleFooter = (props: React.HTMLAttributes<HTMLDivElement>) => {
   return (
     <div {...props}>
       <div className="flex gap-4 items-center flex-row">
-        <Image
-          width={56}
-          height={56}
-          src={profileImage}
-          alt="profile"
-          className="rounded-full"
-        />
+        <div className="w-[56px] h-[56px] overflow-hidden rounded-full">
+          <Image
+            width="100%"
+            height="100%"
+            src={profileImage}
+            alt="profile"
+            placeholder="blur"
+          />
+        </div>
         <div>
           <p className="text-secondary text-left text-sm">
             Written by Rafael Bika(s).
