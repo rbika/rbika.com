@@ -6,13 +6,13 @@ import { socialItems } from '@/utils/constants'
 const AboutMe = (props: React.HTMLAttributes<HTMLDivElement>) => {
   return (
     <div className="flex gap-8 items-center flex-col sm:flex-row" {...props}>
-      <div className="flex-shrink-0">
+      <div className="flex-shrink-0 rounded-full overflow-hidden w-[100px] h-[100px]">
         <Image
-          width={100}
-          height={100}
+          width="100%"
+          height="100%"
           src={profileImage}
           alt="profile"
-          className="rounded-full"
+          placeholder="blur"
         />
       </div>
       <div>

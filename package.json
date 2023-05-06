@@ -67,5 +67,10 @@
       "npm run lint:fix",
       "npm run test:staged"
     ]
+  },
+  "browser": {
+    "fs": false,
+    "os": false,
+    "path": false
   }
 }

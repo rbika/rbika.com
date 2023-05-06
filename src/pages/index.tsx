@@ -1,8 +1,8 @@
 import type { GetStaticProps, NextPage } from 'next'
-
+import fs from 'fs'
 import AboutMe from '@/components/AboutMe'
 import PostMetaData from '@/types/postMetaData'
-import { getSortedPostsMetaData } from '@/utils/blog'
+import { generateRssFeed, getSortedPostsMetaData } from '@/utils/blog'
 import Link from 'next/link'
 import { format } from 'date-fns'
 import Seo from '@/components/Seo'
@@ -51,9 +51,13 @@ const Home: NextPage<BlogProps> = ({ postsMetaData }) => {
 }
 
 export const getStaticProps: GetStaticProps<BlogProps> = async () => {
+  const articles = await getSortedPostsMetaData()
+  const feed = generateRssFeed(articles)
+  fs.writeFileSync('./public/rss.xml', feed)
+
   return {
     props: {
-      postsMetaData: await getSortedPostsMetaData(),
+      postsMetaData: articles,
     },
   }
 }

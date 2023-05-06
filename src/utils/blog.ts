@@ -2,6 +2,7 @@ import fs from 'fs'
 import path from 'path'
 import PostsStaticPathsParams from '@/types/postsStaticPathsParams'
 import PostMetaData from '@/types/postMetaData'
+import { formatISO } from 'date-fns'
 
 const postsDirectory = path.join(process.cwd(), 'src/pages/blog')
 
@@ -51,4 +52,39 @@ export const getSortedPostsMetaData = async () => {
     if (a > b) return -1
     return 0
   })
+}
+
+export const generateRssFeed = (articles: PostMetaData[]) => {
+  const siteUrl = 'https://rbika.com'
+
+  return `
+    <rss version="2.0">
+    <channel>
+      <title>R Bika(s) Blog</title>
+      <link>${siteUrl}</link>
+      <description>Web development articles, with a focus on front-end technologies.</description>
+      <language>en-us</language>
+      <category>Web development</category>
+      <copyright>All rights reserved ${new Date().getFullYear()}, R Bika(s)</copyright>
+      <image>
+        <url>${siteUrl}/profile.png</url>
+        <title>R Bika(s) Blog</title>
+        <link>${siteUrl}</link>
+      </image>
+      ${articles
+        .map(({ title, slug, description, date }) => {
+          return `
+          <item>
+            <title>${title}</title>
+            <link>${siteUrl}/blog/${slug}</link>
+            <description>${description}</description>
+            <pubDate>${formatISO(new Date(date ? date : ''), {
+              representation: 'date',
+            })}</pubDate>
+          </item>`
+        })
+        .join('')}
+    </channel>
+    </rss>
+  `
 }
