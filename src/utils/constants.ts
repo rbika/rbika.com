@@ -1,21 +1,21 @@
-import { faEnvelope } from '@fortawesome/free-solid-svg-icons'
+import { SocialItem } from '@/types/socialLink'
 import {
-  faTwitter,
   faGithub,
   faLinkedin,
+  faMastodon,
+  faTwitter,
 } from '@fortawesome/free-brands-svg-icons'
-import { SocialLink } from '@/types/socialLink'
 
-export const socialItems: SocialLink[] = [
-  {
-    label: 'Email',
-    icon: faEnvelope,
-    url: 'mailto:rbikadev@gmail.com',
-  },
+export const socialItems: SocialItem[] = [
   {
     label: 'Twitter',
     icon: faTwitter,
     url: 'https://twitter.com/rbika',
+  },
+  {
+    label: 'Mastodon',
+    icon: faMastodon,
+    url: 'https://mastodon.social/@rbika',
   },
   {
     label: 'Github',
