@@ -1,12 +1,13 @@
-import { render, screen, waitFor } from '@testing-library/react'
-import ArticleFooter from '.'
 import '@testing-library/jest-dom'
+import { render, screen } from '@testing-library/react'
+
+import ArticleFooter from '.'
 
 // Queries
 
 const getProfileImage = () => screen.getByAltText('profile')
 const getText = () => screen.getByText('Written by Rafael Bika(s).')
-const getEmailLink = () => screen.getByLabelText('Email').parentElement
+const getMastodonLink = () => screen.getByLabelText('Mastodon').parentElement
 const getTwitterLink = () => screen.getByLabelText('Twitter').parentElement
 const getGithubLink = () => screen.getByLabelText('Github').parentElement
 const getLinkedinLink = () => screen.getByLabelText('Linkedin').parentElement
@@ -20,7 +21,10 @@ describe('ArticleFooter', () => {
 
     expect(getProfileImage()).toBeInTheDocument()
     expect(getText()).toBeInTheDocument()
-    expect(getEmailLink()).toHaveAttribute('href', 'mailto:rbikadev@gmail.com')
+    expect(getMastodonLink()).toHaveAttribute(
+      'href',
+      'https://mastodon.social/@rbika'
+    )
     expect(getTwitterLink()).toHaveAttribute(
       'href',
       'https://twitter.com/rbika'
