@@ -27,13 +27,43 @@ See the full list of [what requests use CORS](https://developer.mozilla.org/en-U
 
 When a browser makes a cross-origin request, it adds an `Origin` header to the message. The server responds by adding an `Access-Control-Allow-Origin` to the response message. The value in the response header should match the value of the `Origin` header from the request. If it does match, everything is fine, but if it doesn't, browsers prevent the response data from being shared with the client, and the CORS error occurs.
 
-![image](/images/blog/understanding-cors-1.svg)
-![image](/images/blog/understanding-cors-2.svg)
+<picture>
+  <source
+    media="(max-width: 576px)"
+    srcset="/images/blog/understanding-cors-1-sm.svg"
+  />
+  <img src="/images/blog/understanding-cors-1.svg" alt="CORS success flow" />
+</picture>
+<picture>
+  <source
+    media="(max-width: 576px)"
+    srcset="/images/blog/understanding-cors-2-sm.svg"
+  />
+  <img src="/images/blog/understanding-cors-2.svg" alt="CORS error flow" />
+</picture>
 
 Requests that use methods other than `GET`, `POST`, `HEAD`, or requests with non-standard headers, need to be pre-flighted. When making these requests, browsers will send a pre-flight request using the `OPTIONS` HTTP method, and servers will respond with the `Access-Control-Allow-Origin` and the `Access-Control-Allow-Methods` headers. If both headers match the request origin and method, the actual request can be made. Such cross-origin requests are pre-flighted because they may have implications for server data.
 
-![image](/images/blog/understanding-cors-3.svg)
-![image](/images/blog/understanding-cors-4.svg)
+<picture>
+  <source
+    media="(max-width: 576px)"
+    srcset="/images/blog/understanding-cors-3-sm.svg"
+  />
+  <img
+    src="/images/blog/understanding-cors-3.svg"
+    alt="CORS success pre-flight flow"
+  />
+</picture>
+<picture>
+  <source
+    media="(max-width: 576px)"
+    srcset="/images/blog/understanding-cors-4-sm.svg"
+  />
+  <img
+    src="/images/blog/understanding-cors-4.svg"
+    alt="CORS error pre-flight flow"
+  />
+</picture>
 
 You may be asking why the `POST` method does not make a pre-flight request since it may also change server data. This is because browsers already allowed cross-origin `POST` requests with standard headers before CORS existed, and servers knew about them. So CORS didn't want to change anything about how previous requests worked, but to enforce servers were protected from these new types of requests they were not expecting to receive.
 
