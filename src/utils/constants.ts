@@ -2,20 +2,20 @@ import { SocialItem } from '@/types/socialLink'
 import {
   faGithub,
   faLinkedin,
-  faMastodon,
-  faTwitter,
+  faThreads,
+  faXTwitter,
 } from '@fortawesome/free-brands-svg-icons'
 
 export const socialItems: SocialItem[] = [
   {
     label: 'Twitter',
-    icon: faTwitter,
+    icon: faXTwitter,
     url: 'https://twitter.com/rbika',
   },
   {
-    label: 'Mastodon',
-    icon: faMastodon,
-    url: 'https://mastodon.social/@rbika',
+    label: 'Threads',
+    icon: faThreads,
+    url: 'https://threads.net/@rbika',
   },
   {
     label: 'Github',

@@ -9,7 +9,7 @@ const getProfileImage = () => screen.getByAltText('profile')
 const getFirstLine = () => screen.getByText(/Hey, my name is Rafael but/i)
 const getSecondLine = () => screen.getByText(/I'm a frontend developer/i)
 const getInterLink = () => screen.getByText('Inter')
-const getMastodonLink = () => screen.getByLabelText('Mastodon').parentElement
+const getThreadsLink = () => screen.getByLabelText('Threads').parentElement
 const getTwitterLink = () => screen.getByLabelText('Twitter').parentElement
 const getGithubLink = () => screen.getByLabelText('Github').parentElement
 const getLinkedinLink = () => screen.getByLabelText('Linkedin').parentElement
@@ -28,9 +28,9 @@ describe('AboutMe', () => {
       "I'm a frontend developer from Brazil currently working at Inter."
     )
     expect(getInterLink()).toHaveAttribute('href', 'https://bancointer.com.br')
-    expect(getMastodonLink()).toHaveAttribute(
+    expect(getThreadsLink()).toHaveAttribute(
       'href',
-      'https://mastodon.social/@rbika'
+      'https://threads.net/@rbika'
     )
     expect(getTwitterLink()).toHaveAttribute(
       'href',
