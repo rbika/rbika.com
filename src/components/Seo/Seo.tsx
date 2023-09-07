@@ -20,6 +20,10 @@ const Seo = ({
     <Head>
       <title>{title}</title>
       <meta name="description" content={description} />
+      <meta
+        name="keywords"
+        content="Web development, Frontend, Front-end, React, Javascript"
+      />
 
       {/* Open Graph */}
       <meta name="og:title" content={title} />
