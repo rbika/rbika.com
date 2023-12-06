@@ -1,35 +1,14 @@
-import Image from 'next/image'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import profileImage from '../../../public/profile.png'
 import { socialItems } from '@/utils/constants'
 
 const AboutMe = (props: React.HTMLAttributes<HTMLDivElement>) => {
   return (
     <div className="flex gap-8 items-center flex-col sm:flex-row" {...props}>
-      <div className="flex-shrink-0 rounded-full overflow-hidden w-[100px] h-[100px]">
-        <Image
-          width="100%"
-          height="100%"
-          src={profileImage}
-          alt="profile"
-          placeholder="blur"
-        />
-      </div>
       <div>
         <p className="text-secondary text-center sm:text-left">
-          <span>Hey, my name is Rafael but you can call me Bika/Bikas.</span>{' '}
+          <span>Hi, my name is Rafael but you can call me Bika/Bikas.</span>{' '}
           <br className="hidden sm:block" />
-          <span>
-            I&apos;m a frontend developer from Brazil currently working at{' '}
-            <a
-              href="https://bancointer.com.br"
-              target="_blank"
-              rel="noreferrer"
-            >
-              Inter
-            </a>
-            .
-          </span>
+          <span>I write about front-end and web development.</span>
         </p>
         <ul className="flex gap-10 mt-4 justify-center sm:justify-start">
           {socialItems.map((item) => {
