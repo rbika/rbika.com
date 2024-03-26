@@ -3,6 +3,7 @@ type PostMetaData = {
   date: string
   title: string
   description: string
+  coverImage?: string
 }
 
 export default PostMetaData
