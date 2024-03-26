@@ -27,7 +27,13 @@ const Article = ({ children, meta }: ArticleProps) => {
           {meta?.date ? format(new Date(meta.date), 'MMM d, yyyy') : '---'}
         </p>
         {!!meta.coverImage && (
-          <Image src={meta.coverImage} alt="" width="736" height="300" />
+          <Image
+            src={meta.coverImage}
+            alt=""
+            width="736"
+            height="300"
+            className="rounded-2xl"
+          />
         )}
       </header>
 
