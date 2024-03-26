@@ -3,6 +3,7 @@ import PostMetaData from '@/types/postMetaData'
 import ArticleFooter from '../ArticleFooter'
 import PageContainer from '../PageContainer'
 import Seo from '../Seo'
+import Image from 'next/image'
 
 type ArticleProps = {
   children: React.ReactNode
@@ -17,13 +18,23 @@ const Article = ({ children, meta }: ArticleProps) => {
         description={meta.description}
         path={`/blog/${meta.slug}`}
         type="article"
+        image={meta.coverImage}
       />
 
       <header className="mb-12">
         <h1 className="text-4xl leading-tight">{meta.title}</h1>
-        <p className="text-secondary mt-4 sm:mt-2 text-sm">
+        <p className="text-secondary mt-4 mb-8 pb-8 sm:mt-2 text-sm border-b border-zinc-800">
           {meta?.date ? format(new Date(meta.date), 'MMM d, yyyy') : '---'}
         </p>
+        {!!meta.coverImage && (
+          <Image
+            src={meta.coverImage}
+            alt=""
+            width="736"
+            height="300"
+            className="rounded-2xl"
+          />
+        )}
       </header>
 
       <div className="text-secondary max-w-none prose dark:prose-invert prose-h2:font-medium">
