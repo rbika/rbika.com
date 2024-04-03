@@ -1,7 +1,7 @@
-import { IconDefinition } from '@fortawesome/free-regular-svg-icons'
+import { HTMLAttributes } from 'react'
 
 export type SocialItem = {
   label: string
-  icon: IconDefinition
+  icon: React.JSXElementConstructor<HTMLAttributes<SVGElement>>
   url: string
 }

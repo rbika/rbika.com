@@ -1,4 +1,3 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { socialItems } from '@/utils/constants'
 
 const AboutMe = (props: React.HTMLAttributes<HTMLDivElement>) => {
@@ -12,7 +11,7 @@ const AboutMe = (props: React.HTMLAttributes<HTMLDivElement>) => {
         </p>
         <ul className="flex gap-10 mt-4 justify-center sm:justify-start">
           {socialItems.map((item) => {
-            const { label, icon, url } = item
+            const { label, icon: Icon, url } = item
             return (
               <li key={url}>
                 <a
@@ -21,10 +20,7 @@ const AboutMe = (props: React.HTMLAttributes<HTMLDivElement>) => {
                   rel="noreferrer"
                   className="flex items-center gap-2 no-underline text-secondary hover:text-primary focus:text-primary"
                 >
-                  <FontAwesomeIcon
-                    icon={icon}
-                    className=" text-[24px] sm:text-[20px]"
-                  />
+                  <Icon className="sm:w-[20px] sm:h-[20px] w-[22px] h-[22px]" />
                   <span className="text-sm hidden sm:block" aria-label={label}>
                     {label}
                   </span>

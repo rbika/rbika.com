@@ -7,11 +7,10 @@ import AboutMe from '.'
 
 const getFirstLine = () => screen.getByText(/^Hi, my name is Rafael but/i)
 const getSecondLine = () => screen.getByText(/^I write about/i)
-const getThreadsLink = () => screen.getByLabelText('Threads').parentElement
-const getTwitterLink = () => screen.getByLabelText('Twitter').parentElement
+const getBlueskyLink = () => screen.getByLabelText('Bluesky').parentElement
+const getMastodonLink = () => screen.getByLabelText('Mastodon').parentElement
 const getGithubLink = () => screen.getByLabelText('Github').parentElement
 const getLinkedinLink = () => screen.getByLabelText('Linkedin').parentElement
-const getMastodonLink = () => screen.getByLabelText('Mastodon').parentElement
 
 // Tests
 
@@ -25,14 +24,11 @@ describe('AboutMe', () => {
     expect(getSecondLine()).toHaveTextContent(
       'I write about front-end and web development.'
     )
-    expect(getThreadsLink()).toHaveAttribute(
+    expect(getBlueskyLink()).toHaveAttribute(
       'href',
-      'https://threads.net/@rbika'
+      'https://bsky.app/profile/rbika.bsky.social'
     )
-    expect(getTwitterLink()).toHaveAttribute(
-      'href',
-      'https://twitter.com/rbika'
-    )
+
     expect(getMastodonLink()).toHaveAttribute(
       'href',
       'https://mastodon.social/@rbika'
