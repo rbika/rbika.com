@@ -6,9 +6,8 @@ import { generateRssFeed, getSortedPostsMetaData } from '@/utils/blog'
 import Link from 'next/link'
 import { format } from 'date-fns'
 import Seo from '@/components/Seo'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faRssSquare } from '@fortawesome/free-solid-svg-icons'
 import PageContainer from '@/components/PageContainer'
+import RssIcon from '../icons/Rss'
 
 type BlogProps = {
   postsMetaData: PostMetaData[]
@@ -22,13 +21,10 @@ const Home: NextPage<BlogProps> = ({ postsMetaData }) => {
       <div>
         <AboutMe />
 
-        <h2 className="text-xl pb-6 pt-12">
+        <h2 className="text-xl pb-6 pt-12 flex items-center">
           <span className="pr-2">Articles</span>
           <a href="https://rbika.com/rss.xml">
-            <FontAwesomeIcon
-              className="text-secondary text-md duration-500 transition-colors hover:text-primary"
-              icon={faRssSquare}
-            />
+            <RssIcon className="text-secondary text-md duration-500 transition-colors hover:text-primary" />
           </a>
         </h2>
         <ul className="border-t border-zinc-800">

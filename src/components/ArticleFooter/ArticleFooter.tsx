@@ -1,5 +1,4 @@
 import Image from 'next/image'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import profileImage from '@/../public/profile.png'
 import { socialItems } from '@/utils/constants'
 
@@ -27,9 +26,9 @@ const ArticleFooter = (props: React.HTMLAttributes<HTMLDivElement>) => {
           <p className="text-secondary text-left text-sm">
             Written by Rafael Bika(s).
           </p>
-          <ul className="flex gap-3 mt-2 justify-start">
+          <ul className="flex gap-3 mt-2 text-secondary justify-start items-center">
             {socialItems.map((item) => {
-              const { label, icon, url } = item
+              const { label, icon: Icon, url } = item
               return (
                 <li key={url}>
                   <a
@@ -38,7 +37,7 @@ const ArticleFooter = (props: React.HTMLAttributes<HTMLDivElement>) => {
                     rel="noreferrer"
                     className="flex items-center no-underline text-secondary hover:text-primary focus:text-primary"
                   >
-                    <FontAwesomeIcon icon={icon} className="text-[18px]" />
+                    <Icon className="h-[20px] w=[20px]" />
                     <span aria-label={label} />
                   </a>
                 </li>
