@@ -16,11 +16,7 @@ const NotFound: NextPage = () => {
           404
         </h1>
         <h2 className="text-lg text-secondary font-thin">
-          Page not found.{' '}
-          <Link href="/">
-            <a>Go home</a>
-          </Link>
-          .
+          Page not found. <Link href="/">Go home</Link>.
         </h2>
       </div>
     </PageContainer>
