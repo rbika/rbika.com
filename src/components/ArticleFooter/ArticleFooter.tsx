@@ -15,8 +15,8 @@ const ArticleFooter = (props: React.HTMLAttributes<HTMLDivElement>) => {
       <div className="flex gap-4 items-center flex-row">
         <div className="w-[56px] h-[56px] overflow-hidden rounded-full">
           <Image
-            width="100%"
-            height="100%"
+            width="56"
+            height="56"
             src={profileImage}
             alt="profile"
             placeholder="blur"

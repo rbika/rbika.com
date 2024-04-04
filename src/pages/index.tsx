@@ -30,13 +30,14 @@ const Home: NextPage<BlogProps> = ({ postsMetaData }) => {
         <ul className="border-t border-zinc-800">
           {postsMetaData.map(({ slug, date, title }) => (
             <li key={slug} className="border-b border-zinc-800">
-              <Link href={`/blog/${slug}`}>
-                <a className="py-6 no-underline text-primary sm:text-secondary hover:text-primary focus:text-primary flex justify-between transition-colors duration-300 flex-col sm:flex-row">
-                  <span>{title}</span>
-                  <span className="text-sm text-secondary">
-                    {format(new Date(date ? date : ''), 'MMM d, yyyy')}
-                  </span>
-                </a>
+              <Link
+                href={`/blog/${slug}`}
+                className="py-6 no-underline text-primary sm:text-secondary hover:text-primary focus:text-primary flex justify-between transition-colors duration-300 flex-col sm:flex-row"
+              >
+                <span>{title}</span>
+                <span className="text-sm text-secondary">
+                  {format(new Date(date ? date : ''), 'MMM d, yyyy')}
+                </span>
               </Link>
             </li>
           ))}
