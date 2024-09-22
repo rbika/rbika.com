@@ -1,13 +1,8 @@
 import type { NextPage } from 'next'
-import UsesData from '@/types/usesData'
 import Seo from '@/components/Seo'
 import PageContainer from '@/components/PageContainer'
 
-type UsesProps = {
-  usesData: UsesData
-}
-
-const Uses: NextPage<UsesProps> = ({ usesData }) => {
+const Uses: NextPage = () => {
   return (
     <PageContainer>
       <Seo path="/uses" />
@@ -15,7 +10,7 @@ const Uses: NextPage<UsesProps> = ({ usesData }) => {
       <header className="mb-12">
         <h1 className="text-4xl leading-tight">Uses</h1>
         <p className="text-secondary mt-4 sm:mt-2 text-sm">
-          Last update: Apr 22, 2023.
+          Last update: Sep 22, 2024.
         </p>
       </header>
 
@@ -28,15 +23,9 @@ const Uses: NextPage<UsesProps> = ({ usesData }) => {
         "
       >
         <p>
-          It&apos;s nice to find new apps, tools, and gear other developers use,
-          so here is my list. You can also check more &ldquo;uses&rdquo; pages
-          on this website:{' '}
-          <a href="https://uses.tech/" target="_blank" rel="noreferrer">
-            uses.tech
-          </a>
-          .
+          Here are the apps and tools I use as a developer.
           <br />
-          If you find a missing link or something wrong please let me know:{' '}
+          please let me know if you find a missing link or something wrong:{' '}
           <a href="https://twitter.com/rbika" target="_blank" rel="noreferrer">
             @rbika
           </a>
@@ -44,32 +33,48 @@ const Uses: NextPage<UsesProps> = ({ usesData }) => {
         </p>
 
         <h2>Code Editor</h2>
-        <ul>
-          <li>
-            <a href="https://code.visualstudio.com">VS Code</a> - I used Vim for
-            many years but now I switched to VS Code. I use VS Code with the
-            default theme (Dark+). Here are my{' '}
-            <a href="https://github.com/rbika/dotfiles-macos/tree/master/src/vscode">
-              settings and keybindings
-            </a>
-            .
-          </li>
-        </ul>
+        <div>
+          <a href="https://code.visualstudio.com">VS Code</a> - Here are my{' '}
+          <a href="https://github.com/rbika/dotfiles-macos/tree/master/src/vscode">
+            settings and keybindings
+          </a>
+          .
+          <ul>
+            <li>
+              Theme -{' '}
+              <a href="https://github.com/rbika/dotfiles-macos/blob/master/src/vscode/settings.json">
+                custom darker version
+              </a>{' '}
+              of the <a href="https://www.nordtheme.com/">Nord theme</a>.<br />
+            </li>
+            <li>
+              Font -{' '}
+              <a href="https://www.jetbrains.com/lp/mono/">JetBrains Mono</a>.
+            </li>
+          </ul>
+        </div>
 
         <h2>Terminal</h2>
-        <ul>
-          <li>
-            <a href="https://iterm2.com">iTerm2</a> - macOS Terminal
-            replacement. Here is my{' '}
-            <a href="https://github.com/rbika/dotfiles-macos/blob/master/src/zsh/.zshrc">
-              zsh config
-            </a>
-          </li>
-          <li>
-            <a href="https://github.com/rbika/iterm2-vscode-dark-plus">Dark+</a>{' '}
-            - I made a port from VS Code Dark+ theme to iTerm2.
-          </li>
-        </ul>
+        <div>
+          <a href="https://iterm2.com">iTerm2</a> - Here is my{' '}
+          <a href="https://github.com/rbika/dotfiles-macos/blob/master/src/zsh/.zshrc">
+            zsh config
+          </a>
+          .
+          <ul>
+            <li>
+              Theme -{' '}
+              <a href="https://github.com/rbika/iterm2-nord-dark">
+                custom darker version
+              </a>{' '}
+              of the <a href="https://www.nordtheme.com/">Nord theme</a>.<br />
+            </li>
+            <li>
+              Font -{' '}
+              <a href="https://www.jetbrains.com/lp/mono/">JetBrains Mono</a>.
+            </li>
+          </ul>
+        </div>
 
         <h2>macOS apps</h2>
         <ul>
@@ -90,16 +95,18 @@ const Uses: NextPage<UsesProps> = ({ usesData }) => {
             preferred browser.
           </li>
           <li>
-            <a href="https://www.notion.so/">Notion</a> - Multi-platform
+            <a href="https://www.craft.do/">Craft</a> - Multi-platform
             note-taking app with markdown support.
+          </li>
+          <li>
+            <a href="https://karabiner-elements.pqrs.org/">
+              Karabiner Elements
+            </a>{' '}
+            - Keyboard customizer for macOS.
           </li>
           <li>
             <a href="https://www.apple.com/apple-music/">Spotify</a> - Music
             streaming.
-          </li>
-          <li>
-            <a href="https://rectangleapp.com/">Rectangle</a> - macOS&apos;s
-            window management is terrible.
           </li>
         </ul>
       </div>
