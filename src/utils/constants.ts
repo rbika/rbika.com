@@ -1,14 +1,13 @@
 import { SocialItem } from '@/types/socialLink'
-import BlueskyIcon from '../icons/Bluesky'
+import XTwitter from '../icons/XTwitter'
 import MastodonIcon from '../icons/Mastodon'
 import GithubIcon from '../icons/Github'
-import LinkedinIcon from '../icons/Linkedin'
 
 export const socialItems: SocialItem[] = [
   {
-    label: 'Bluesky',
-    icon: BlueskyIcon,
-    url: 'https://bsky.app/profile/rbika.bsky.social',
+    label: 'X / Twitter',
+    icon: XTwitter,
+    url: 'https://x.com/rbika',
   },
   {
     label: 'Mastodon',
@@ -19,10 +18,5 @@ export const socialItems: SocialItem[] = [
     label: 'Github',
     icon: GithubIcon,
     url: 'https://github.com/rbika',
-  },
-  {
-    label: 'Linkedin',
-    icon: LinkedinIcon,
-    url: 'https://linkedin.com/in/rbika',
   },
 ]
