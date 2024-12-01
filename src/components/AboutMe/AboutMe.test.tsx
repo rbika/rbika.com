@@ -8,7 +8,7 @@ import AboutMe from '.'
 const getFirstLine = () => screen.getByText(/^Hi, my name is Rafael but/i)
 const getSecondLine = () => screen.getByText(/^I write about/i)
 const getXTwitterLink = () => screen.getByLabelText('X / Twitter').parentElement
-const getMastodonLink = () => screen.getByLabelText('Mastodon').parentElement
+const getBlueskyLink = () => screen.getByLabelText('Bluesky').parentElement
 const getGithubLink = () => screen.getByLabelText('Github').parentElement
 
 // Tests
@@ -25,9 +25,9 @@ describe('AboutMe', () => {
     )
     expect(getXTwitterLink()).toHaveAttribute('href', 'https://x.com/rbika')
 
-    expect(getMastodonLink()).toHaveAttribute(
+    expect(getBlueskyLink()).toHaveAttribute(
       'href',
-      'https://mastodon.social/@rbika'
+      'https://bsky.app/profile/rbika.bsky.social'
     )
     expect(getGithubLink()).toHaveAttribute('href', 'https://github.com/rbika')
   })

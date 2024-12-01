@@ -8,7 +8,7 @@ import ArticleFooter from '.'
 const getProfileImage = () => screen.getByAltText('profile')
 const getText = () => screen.getByText('Written by Rafael Bika(s).')
 const getXTwitterLink = () => screen.getByLabelText('X / Twitter').parentElement
-const getMastodonLink = () => screen.getByLabelText('Mastodon').parentElement
+const getBlueskyLink = () => screen.getByLabelText('Bluesky').parentElement
 const getGithubLink = () => screen.getByLabelText('Github').parentElement
 const getBackToTopLink = () => screen.getByText('↑ Back to top')
 
@@ -21,9 +21,9 @@ describe('ArticleFooter', () => {
     expect(getProfileImage()).toBeInTheDocument()
     expect(getText()).toBeInTheDocument()
     expect(getXTwitterLink()).toHaveAttribute('href', 'https://x.com/rbika')
-    expect(getMastodonLink()).toHaveAttribute(
+    expect(getBlueskyLink()).toHaveAttribute(
       'href',
-      'https://mastodon.social/@rbika'
+      'https://bsky.app/profile/rbika.bsky.social'
     )
     expect(getGithubLink()).toHaveAttribute('href', 'https://github.com/rbika')
     expect(getBackToTopLink()).toBeInTheDocument()
