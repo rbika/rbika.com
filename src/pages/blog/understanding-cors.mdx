@@ -4,7 +4,7 @@ export const meta = {
   date: '2023-04-30T00:00:00-03:00',
   description:
     'Understanding what is CORS, how it works and how to fix CORS errors.',
-  coverImage: '/images/blog/understanding-cors-cover.jpg',
+  coverImage: '/images/blog/understanding-cors/understanding-cors-cover.svg',
 }
 
 import ArticleLayout from '../../components/ArticleLayout'
@@ -31,16 +31,22 @@ When a browser makes a cross-origin request, it adds an `Origin` header to the m
 <picture>
   <source
     media="(max-width: 576px)"
-    srcset="/images/blog/understanding-cors-1-sm.svg"
+    srcset="/images/blog/understanding-cors/understanding-cors-1-sm.svg"
   />
-  <img src="/images/blog/understanding-cors-1.svg" alt="CORS success flow" />
+  <img
+    src="/images/blog/understanding-cors/understanding-cors-1.svg"
+    alt="CORS success flow"
+  />
 </picture>
 <picture>
   <source
     media="(max-width: 576px)"
-    srcset="/images/blog/understanding-cors-2-sm.svg"
+    srcset="/images/blog/understanding-cors/understanding-cors-2-sm.svg"
   />
-  <img src="/images/blog/understanding-cors-2.svg" alt="CORS error flow" />
+  <img
+    src="/images/blog/understanding-cors/understanding-cors-2.svg"
+    alt="CORS error flow"
+  />
 </picture>
 
 Requests that use methods other than `GET`, `POST`, `HEAD`, or requests with non-standard headers, need to be pre-flighted. When making these requests, browsers will send a pre-flight request using the `OPTIONS` HTTP method, and servers will respond with the `Access-Control-Allow-Origin` and the `Access-Control-Allow-Methods` headers. If both headers match the request origin and method, the actual request can be made. Such cross-origin requests are pre-flighted because they may have implications for server data.
@@ -48,20 +54,20 @@ Requests that use methods other than `GET`, `POST`, `HEAD`, or requests with non
 <picture>
   <source
     media="(max-width: 576px)"
-    srcset="/images/blog/understanding-cors-3-sm.svg"
+    srcset="/images/blog/understanding-cors/understanding-cors-3-sm.svg"
   />
   <img
-    src="/images/blog/understanding-cors-3.svg"
+    src="/images/blog/understanding-cors/understanding-cors-3.svg"
     alt="CORS success pre-flight flow"
   />
 </picture>
 <picture>
   <source
     media="(max-width: 576px)"
-    srcset="/images/blog/understanding-cors-4-sm.svg"
+    srcset="/images/blog/understanding-cors/understanding-cors-4-sm.svg"
   />
   <img
-    src="/images/blog/understanding-cors-4.svg"
+    src="/images/blog/understanding-cors/understanding-cors-4.svg"
     alt="CORS error pre-flight flow"
   />
 </picture>
