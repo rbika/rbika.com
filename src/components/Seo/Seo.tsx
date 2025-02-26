@@ -16,7 +16,7 @@ const Seo = ({
   description = defaultDescription,
   path = '',
   type = 'website',
-  image = '/profile.png',
+  image = '/profile.jpg',
 }: SeoProps) => {
   return (
     <Head>

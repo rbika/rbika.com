@@ -67,7 +67,7 @@ export const generateRssFeed = (articles: PostMetaData[]) => {
       <category>Web development</category>
       <copyright>All rights reserved ${new Date().getFullYear()}, R Bika(s)</copyright>
       <image>
-        <url>${siteUrl}/profile.png</url>
+        <url>${siteUrl}/profile.jpg</url>
         <title>R Bika(s) Blog</title>
         <link>${siteUrl}</link>
       </image>

@@ -26,15 +26,6 @@ const Article = ({ children, meta }: ArticleProps) => {
         <p className="text-secondary mt-4 mb-8 pb-8 sm:mt-2 text-sm border-b border-zinc-800">
           {meta?.date ? format(new Date(meta.date), 'MMM d, yyyy') : '---'}
         </p>
-        {!!meta.coverImage && (
-          <Image
-            src={meta.coverImage}
-            alt=""
-            width="736"
-            height="300"
-            className="rounded-2xl"
-          />
-        )}
       </header>
 
       <div className="text-secondary max-w-none prose dark:prose-invert prose-h2:font-medium">
