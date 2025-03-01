@@ -1,0 +1,135 @@
+export const meta = {
+  title: 'Optimize caching with stale-while-revalidate',
+  slug: 'optimize-caching-with-stale-while-revalidate',
+  date: '2025-03-01T00:00:00-03:00',
+  description:
+    'Enhancing user experience and application performance with stale-while-revalidate.',
+  coverImage:
+    '/images/blog/optimize-caching-with-stale-while-revalidate/stale-while-revalidate-cover.svg',
+}
+
+import ArticleLayout from '../../components/ArticleLayout'
+
+{/* ----------------------------------------------------------------------- */}
+
+## Introduction
+
+The `stale-while-revalidate` directive is a powerful mechanism for improving user experience and application performance. Instead of making users wait for a slow response, it allows the browser or CDN to serve a stale, but still usable response immediately, while asynchronously revalidating the cache in the background. Once the validation is complete, the next requests will receive the updated cached response instantly.
+
+## How does it work?
+
+To use the `stale-while-revalidate` caching strategy, you need to include two directives in the `Cache-Control` header: `max-age`and`stale-while-revalidate`.
+
+```bash
+Cache-Control: max-age=X, slate-while-revalidate=Y
+```
+
+- `max-age=X` defines how long the cached response is considered fresh. If a request is made within this time (X seconds), the cached response is returned immediately without needing validation.
+- `stale-while-revalidate=Y` defines how long a stale response can still be served while a background revalidation fetches a fresh response.
+
+Let's take a look at some request scenarios.
+
+For the examples below, we assume caching is handled by a CDN, and we use the following Cache-Control header:
+
+```bash
+Cache-Control: max-age=60, stale-while-revalidate=60
+```
+
+<picture>
+  <img
+    src="/images/blog/optimize-caching-with-stale-while-revalidate/cache-timeline.svg"
+    alt="Cache timeline"
+  />
+</picture>
+
+#### 1. No Cache Available
+
+If this is the first request, there is no cached response, so the data must be retrieved from the origin server.
+
+<div className="flex justify-center items-center rounded-md bg-[#2f3340] px-2">
+  <img
+    src="/images/blog/optimize-caching-with-stale-while-revalidate/request-no-cache-expired-cache.svg"
+    alt="Request with no cache steps"
+  />
+</div>
+
+1. The client makes a request.
+2. The CDN has no cached response, so it fetches the data from the server.
+3. The CDN caches the response for future requests.
+4. The client receives the response.
+
+#### 2. Fresh Cache (within max-age)
+
+If the cached response is less than 60 seconds old, it is considered fresh and returned immediately. No request to the server is made.
+
+<div className="flex justify-center items-center rounded-md bg-[#2f3340] px-2">
+  <img
+    src="/images/blog/optimize-caching-with-stale-while-revalidate/request-fresh-cache.svg"
+    alt="Request with fresh cache steps"
+  />
+</div>
+
+1. The client makes a request.
+2. The cached response is still fresh, so the CDN serves it immediately.
+
+#### 3. Stale Cache but Still Valid (max-age expired, but within stale-while-revalidate)
+
+If the cached response is older than 60 seconds but less than 120 seconds (60 < time < 120), it is considered stale but still valid. The stale response is served immediately, and in the background, the CDN fetches an updated response from the origin server.
+
+<div className="flex justify-center items-center rounded-md bg-[#2f3340] px-2">
+  <img
+    src="/images/blog/optimize-caching-with-stale-while-revalidate/request-stale-cache.svg"
+    alt="Request with stale cache steps"
+  />
+</div>
+
+1. The client makes a request.
+2. The stale response is immediately returned from the CDN.
+3. A background request is sent to fetch an updated response.
+4. The CDN updates its cache with the fresh response for future requests.
+
+#### 4. Cache Expired (beyond max-age + stale-while-revalidate)
+
+If the cached response is older than 120 seconds, it is no longer valid. The request must wait for a fresh response from the server before anything is returned. Avoiding this scenario as much as possible helps maintain better performance.
+
+<div className="flex justify-center items-center rounded-md bg-[#2f3340] px-2">
+  <img
+    src="/images/blog/optimize-caching-with-stale-while-revalidate/request-no-cache-expired-cache.svg"
+    alt="Request with expired cache steps"
+  />
+</div>
+
+1. The client makes a request.
+2. The cache is expired, so the CDN fetches data from the server.
+3. The CDN updates its cache with the fresh response.
+4. The client receives the response.
+
+## Use cases
+
+Here are two use cases that can benefit from stale-while-revalidate, along with possible configurations. Keep in mind that these values are just examples, and other options may also be suitable.
+
+#### 1. Frequent updates, but slightly stale content is acceptable
+
+**Goal**: Ensure fast page loads while reducing unnecessary API calls.
+
+```bash
+Cache-Control: max-age=60, stale-while-revalidate=120
+```
+
+#### 2. Expensive requests that are frequently accessed
+
+**Goal**: Deliver instant responses while ensuring data remains fresh.
+
+```bash
+Cache-Control: max-age=1, stale-while-revalidate=59
+```
+
+## Conclusion
+
+The `stale-while-revalidate` directive ensures users rarely have to wait for a response, at the cost of occasionally serving slightly outdated data. It balances performance and freshness, improving page speed, user experience, and server efficiency.
+
+{/* ----------------------------------------------------------------------- */}
+
+export default ({ children }) => (
+  <ArticleLayout meta={meta}>{children}</ArticleLayout>
+)
