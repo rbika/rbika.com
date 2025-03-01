@@ -5,7 +5,7 @@ export const meta = {
   description:
     'Enhancing user experience and application performance with stale-while-revalidate.',
   coverImage:
-    '/images/blog/stale-while-revalidate/stale-while-revalidate-cover.svg',
+    '/images/blog/optimize-caching-with-stale-while-revalidate/stale-while-revalidate-cover.svg',
 }
 
 import ArticleLayout from '../../components/ArticleLayout'
@@ -37,7 +37,7 @@ Cache-Control: max-age=60, stale-while-revalidate=60
 
 <picture>
   <img
-    src="/images/blog/stale-while-revalidate/cache-timeline.svg"
+    src="/images/blog/optimize-caching-with-stale-while-revalidate/cache-timeline.svg"
     alt="Cache timeline"
   />
 </picture>
@@ -48,7 +48,7 @@ If this is the first request, there is no cached response, so the data must be r
 
 <div className="flex justify-center items-center rounded-md bg-[#2f3340] px-2">
   <img
-    src="/images/blog/stale-while-revalidate/request-no-cache-expired-cache.svg"
+    src="/images/blog/optimize-caching-with-stale-while-revalidate/request-no-cache-expired-cache.svg"
     alt="Request with no cache steps"
   />
 </div>
@@ -64,7 +64,7 @@ If the cached response is less than 60 seconds old, it is considered fresh and r
 
 <div className="flex justify-center items-center rounded-md bg-[#2f3340] px-2">
   <img
-    src="/images/blog/stale-while-revalidate/request-fresh-cache.svg"
+    src="/images/blog/optimize-caching-with-stale-while-revalidate/request-fresh-cache.svg"
     alt="Request with fresh cache steps"
   />
 </div>
@@ -78,7 +78,7 @@ If the cached response is older than 60 seconds but less than 120 seconds (60 < 
 
 <div className="flex justify-center items-center rounded-md bg-[#2f3340] px-2">
   <img
-    src="/images/blog/stale-while-revalidate/request-stale-cache.svg"
+    src="/images/blog/optimize-caching-with-stale-while-revalidate/request-stale-cache.svg"
     alt="Request with stale cache steps"
   />
 </div>
@@ -94,7 +94,7 @@ If the cached response is older than 120 seconds, it is no longer valid. The req
 
 <div className="flex justify-center items-center rounded-md bg-[#2f3340] px-2">
   <img
-    src="/images/blog/stale-while-revalidate/request-no-cache-expired-cache.svg"
+    src="/images/blog/optimize-caching-with-stale-while-revalidate/request-no-cache-expired-cache.svg"
     alt="Request with expired cache steps"
   />
 </div>
