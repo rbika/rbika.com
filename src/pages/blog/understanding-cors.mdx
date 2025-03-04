@@ -13,12 +13,14 @@ import ArticleLayout from '../../components/ArticleLayout'
 
 ## What is CORS?
 
-Let's say you are running a website on `localhost:8000`, and when your JavaScript code is loaded, it makes a request to the server running on `localhost:9000`. You may be surprised to find out that your request has failed. This is because browsers follow the [same-origin policy](https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy) and restrict how a document or script, loaded by one origin, can interact with a resource from another origin:
+If a website is hosted on `localhost:8000` and its JavaScript code attempts to send a request to a server running on `localhost:9000`, the request will fail due to the [same-origin policy](https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy) enforced by browsers. This policy restricts how a document or script loaded from one origin can interact with resources from another origin, preventing unauthorized cross-origin requests by default.
 
-- Requests to a server in the same origin are allowed by the browser.
-- Requests to a different origin (known as cross-origin requests) are, by default, blocked by the browser and a CORS error occurs.
+Here's how it works:
 
-So, what is CORS? CORS stands for Cross-Origin Request Sharing, and it's an HTTP-header based mechanism where servers can tell browsers if other origins are allowed to interact with its resources.
+- Requests made to the same origin are allowed by the browser.
+- Requests to a different origin (known as cross-origin requests) are blocked by default, resulting in a CORS error.
+
+So, what is CORS? CORS (Cross-Origin Resource Sharing) is an HTTP header based mechanism where servers can tell browsers which origins are allowed to interact with its resources.
 
 > The CORS mechanism supports secure cross-origin requests and data transfers between browsers and servers. Modern browsers use CORS in APIs such as XMLHttpRequest or Fetch, to mitigate the risks of cross-origin HTTP requests.
 
@@ -26,69 +28,55 @@ See the full list of [what requests use CORS](https://developer.mozilla.org/en-U
 
 ## How does it work?
 
-When a browser makes a cross-origin request, it adds an `Origin` header to the message. The server responds by adding an `Access-Control-Allow-Origin` to the response message. The value in the response header should match the value of the `Origin` header from the request. If it does match, everything is fine, but if it doesn't, browsers prevent the response data from being shared with the client, and the CORS error occurs.
+When a browser makes a cross-origin request, it includes an Origin header in the request. The server responds with an Access-Control-Allow-Origin header. If the value in this response header matches the Origin header from the request, the browser allows access to the response data. If they do not match, the browser blocks access, resulting in a CORS error.
 
-<picture>
-  <source
-    media="(max-width: 576px)"
-    srcset="/images/blog/understanding-cors/understanding-cors-1-sm.svg"
-  />
+<div className="flex justify-center items-center rounded-md bg-[#2f3340] px-2">
   <img
     src="/images/blog/understanding-cors/understanding-cors-1.svg"
     alt="CORS success flow"
   />
-</picture>
-<picture>
-  <source
-    media="(max-width: 576px)"
-    srcset="/images/blog/understanding-cors/understanding-cors-2-sm.svg"
-  />
+</div>
+<br />
+<div className="flex justify-center items-center rounded-md bg-[#2f3340] px-2">
   <img
     src="/images/blog/understanding-cors/understanding-cors-2.svg"
     alt="CORS error flow"
   />
-</picture>
+</div>
 
-Requests that use methods other than `GET`, `POST`, `HEAD`, or requests with non-standard headers, need to be pre-flighted. When making these requests, browsers will send a pre-flight request using the `OPTIONS` HTTP method, and servers will respond with the `Access-Control-Allow-Origin` and the `Access-Control-Allow-Methods` headers. If both headers match the request origin and method, the actual request can be made. Such cross-origin requests are pre-flighted because they may have implications for server data.
+Requests that use methods other than `GET`, `POST`, `HEAD`, or those that include non-standard headers, must be pre-flighted. In such cases, before sending the actual request, the browser issues a pre-flight request using the OPTIONS HTTP method. The server must respond with Access-Control-Allow-Origin and Access-Control-Allow-Methods headers. If these headers match the request's origin and method, the browser proceeds with the actual request. This mechanism ensures that servers explicitly permit these requests before processing them, preventing unintended modifications to server data.
 
-<picture>
-  <source
-    media="(max-width: 576px)"
-    srcset="/images/blog/understanding-cors/understanding-cors-3-sm.svg"
-  />
+<div className="flex justify-center items-center rounded-md bg-[#2f3340] px-2">
   <img
     src="/images/blog/understanding-cors/understanding-cors-3.svg"
     alt="CORS success pre-flight flow"
   />
-</picture>
-<picture>
-  <source
-    media="(max-width: 576px)"
-    srcset="/images/blog/understanding-cors/understanding-cors-4-sm.svg"
-  />
+</div>
+<br />
+<div className="flex justify-center items-center rounded-md bg-[#2f3340] px-2">
   <img
     src="/images/blog/understanding-cors/understanding-cors-4.svg"
     alt="CORS error pre-flight flow"
   />
-</picture>
+</div>
 
-You may be asking why the `POST` method does not make a pre-flight request since it may also change server data. This is because browsers already allowed cross-origin `POST` requests with standard headers before CORS existed, and servers knew about them. So CORS didn't want to change anything about how previous requests worked, but to enforce servers were protected from these new types of requests they were not expecting to receive.
+Although the POST method can modify server data, it does not always trigger a preflight request. Before CORS was introduced, browsers already allowed cross-origin POST requests with standard headers, and servers were designed to handle them. Rather than changing existing behavior, CORS was designed to protect servers from new types of cross-origin requests that they were not previously configured to handle.
 
 ## How to fix CORS errors?
 
-Let's go back to the example from the beginning of this article: a client app running on `localhost:8000` making a request to a server running on `localhost:9000`. If CORS is not configured properly, the request will fail, and you will see an error in the Browser's console saying:
+Let's revisited the example from the beginning of this article where a client application running on `localhost:8000` makes a request to a server on `localhost:9000`. If CORS is not properly configured, the request will fail and the following error will be displayed in the browser's console:
 
 ```text
 Access to fetch at http://localhost:9000/api/endpoint' from origin
 'http://localhost:8000' has been blocked by CORS policy.
 ```
 
-To see what's wrong with the request, open the network tab of your browser's dev tools and:
+To see what's wrong with the request, open the Network tab in your browser's developer tools and check the response headers:
 
-- Check if the `Access-Control-Allow-Origin` response header is present and matches the `Origin` header from the request.
-- If it's a preflight request, also check if the response has the `Access-Control-Allow-Methods` header and if the value contains the HTTP method being used by the actual request.
+- Ensure the `Access-Control-Allow-Origin` header is present in the server's response and that its value matches the Origin header from the request.
+- If the request requires pre-flight, verify that the response includes the `Access-Control-Allow-Methods` header and that it allows the HTTP method being used.
 
-After verifying what response headers are missing or have the wrong value all you have to do is update the server to respond with the proper headers. In ExpressJS for example this can be easily configured by using the `cors` middleware:
+If any required headers are missing or incorrectly set, update the server's configuration to include the correct CORS headers. In an Express.js application, this can be easily handled using the cors middleware:
 
 ```js {5} showLineNumbers
 var express = require('express')
@@ -106,10 +94,10 @@ app.listen(9000, function () {
 })
 ```
 
-A good thing to understand when debugging CORS errors is that they don't happen when using tools like Postman or curl. So even if you are getting CORS errors in the browser, the same request will work just fine when sent by these tools.
+A common point of confusion when debugging CORS issues is that CORS errors only occur in browsers, not in tools like Postman or curl:
 
 - These tools don't make cross-origin requests. They send a top-level network call (like if you are opening the URL on a new browser tab).
-- Although CORS are configured on the server side, it is the client's decision to honor these configurations or not. Most browsers do enforce it for security reasons, but developer tools don't care about it.
+- While CORS is configured on the server side, it is the client's decision to honor these configurations or not. Most browsers do enforce it for security reasons, but developer tools don't care about it.
 
 {/* ----------------------------------------------------------------------- */}
 
