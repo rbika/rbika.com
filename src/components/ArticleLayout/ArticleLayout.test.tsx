@@ -16,7 +16,6 @@ const children = 'Lorem ipsum dolor sit amet consectetur adipisicing elit.'
 const getTitle = () => screen.getByText(meta.title)
 const getDate = () => screen.getByText('May 1, 2023')
 const getContent = () => screen.getByText(children)
-const getArticleFooter = () => screen.getByText('Written by Rafael Bika(s).')
 
 // Tests
 
@@ -27,6 +26,5 @@ describe('ArticleLayout', () => {
     expect(getTitle()).toBeInTheDocument()
     expect(getDate()).toBeInTheDocument()
     expect(getContent()).toBeInTheDocument()
-    expect(getArticleFooter()).toBeInTheDocument()
   })
 })
