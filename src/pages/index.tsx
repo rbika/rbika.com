@@ -28,16 +28,28 @@ const Home: NextPage<BlogProps> = ({ postsMetaData }) => {
           </a>
         </h2>
         <ul className="border-t border-zinc-800">
-          {postsMetaData.map(({ slug, date, title }) => (
+          {postsMetaData.map(({ tags, slug, date, title }) => (
             <li key={slug} className="border-b border-zinc-800">
               <Link
                 href={`/blog/${slug}`}
-                className="py-6 no-underline text-primary sm:text-secondary hover:text-primary focus:text-primary flex justify-between transition-colors duration-300 flex-col sm:flex-row"
+                className="py-6 no-underline text-primary sm:text-secondary hover:text-primary focus:text-primary flex justify-between transition-colors duration-300 flex-col gap-2"
               >
-                <span>{title}</span>
-                <span className="text-sm text-secondary">
-                  {format(new Date(date ? date : ''), 'MMM d, yyyy')}
-                </span>
+                <div className="flex flex-col sm:flex-row justify-between">
+                  <span>{title}</span>
+                  <span className="text-sm text-secondary">
+                    {format(new Date(date ? date : ''), 'MMM d, yyyy')}
+                  </span>
+                </div>
+                <div className="text-xs flex gap-2 text-secondary">
+                  {tags.map((tag: string) => (
+                    <span
+                      className="border rounded flex justify-center items-center px-1 border-zinc-700"
+                      key={tag}
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
               </Link>
             </li>
           ))}

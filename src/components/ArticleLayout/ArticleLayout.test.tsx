@@ -8,6 +8,7 @@ const meta: PostMetaData = {
   slug: 'hello-world',
   date: '2023-05-01T00:00:00-03:00',
   description: 'Short description',
+  tags: [],
 }
 const children = 'Lorem ipsum dolor sit amet consectetur adipisicing elit.'
 
