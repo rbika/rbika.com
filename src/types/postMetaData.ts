@@ -4,6 +4,7 @@ type PostMetaData = {
   title: string
   description: string
   coverImage?: string
+  tags: string[]
 }
 
 export default PostMetaData
