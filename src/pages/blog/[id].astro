@@ -1,0 +1,77 @@
+---
+import { getCollection, render } from 'astro:content';
+import PageLayout from '../../layouts/PageLayout.astro';
+import '../../styles/global.css';
+import { formatDate } from '@utils';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map((post) => ({
+    params: { id: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+---
+
+<script>
+  const handleBackToTopCLick = () => {
+    const backToTopButton = document.getElementById('backToTopButton');
+    backToTopButton?.addEventListener('click', () => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth',
+      });
+    });
+  };
+  handleBackToTopCLick();
+  document.addEventListener('astro:after-swap', handleBackToTopCLick);
+</script>
+
+<PageLayout
+  title={post.data.title}
+  description={post.data.description}
+  image={post.data.coverImage}
+>
+  <article class="post">
+    <header class="mb-4">
+      <h1 class="mb-1! text-2xl font-semibold text-black dark:text-white">
+        {post.data.title}
+      </h1>
+
+      <div
+        class="flex flex-col justify-between gap-4 border-b border-zinc-300 pb-6 sm:flex-row dark:border-zinc-700"
+      >
+        <div class="flex flex-row items-center gap-2 text-xs">
+          <span>{formatDate(post.data.date)}</span>
+          <span class="h-2.5 border-r border-zinc-400"></span>
+          <div class="flex items-center gap-2">
+            {
+              post.data.tags.map((tag: string, index: number) => (
+                <span class="flex items-center justify-center font-mono">
+                  {tag}
+                  {index != post.data.tags.length - 1 && <span>,</span>}
+                </span>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <Content />
+
+    <footer
+      class="mt-10 flex justify-center border-t border-zinc-300 pt-6 text-sm dark:border-zinc-700"
+    >
+      <button
+        id="backToTopButton"
+        class="cursor-pointer text-sm transition-colors hover:text-black dark:hover:text-white"
+      >
+        ↑ Back to top
+      </button>
+    </footer>
+  </article>
+</PageLayout>

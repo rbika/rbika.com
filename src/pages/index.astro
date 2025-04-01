@@ -1,0 +1,89 @@
+---
+import { getCollection } from 'astro:content';
+import PageLayout from '../layouts/PageLayout.astro';
+import '../styles/global.css';
+import xTwitterIcon from '../../public/x-twitter.svg';
+import blueskyIcon from '../../public/bluesky.svg';
+import githubIcon from '../../public/github.svg';
+import RssIcon from '../../public/square-rss.svg';
+import PostsListItem from '@components/PostsListItem.astro';
+import { formatDate } from '../utils.ts';
+
+const posts = await getCollection('blog');
+const sortedPosts = posts.sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime(),
+);
+const socialLinks = [
+  {
+    label: 'X / Twitter',
+    icon: xTwitterIcon,
+    url: 'https://x.com/rbika',
+  },
+  {
+    label: 'Bluesky',
+    icon: blueskyIcon,
+    url: 'https://bsky.app/profile/rbika.bsky.social',
+  },
+  {
+    label: 'Github',
+    icon: githubIcon,
+    url: 'https://github.com/rbika',
+  },
+];
+---
+
+<PageLayout title="Home" description="Home page.">
+  <p>Hi, my name is Rafael but you can call me Bika/Bikas.</p>
+  <p>I write about web development and productivity tips.</p>
+
+  <ul class="mt-4 flex justify-center gap-10 sm:justify-start">
+    {
+      socialLinks.map((item) => {
+        const { label, icon: Icon, url } = item;
+        return (
+          <li>
+            <a
+              href={url}
+              target="_blank"
+              rel="noreferrer"
+              class="focus:text-primary flex items-center gap-2 no-underline"
+            >
+              <Icon class="h-[22px] w-[22px] sm:h-[20px] sm:w-[20px]" />
+              <span class="hidden text-sm sm:block" aria-label={label}>
+                {label}
+              </span>
+            </a>
+          </li>
+        );
+      })
+    }
+  </ul>
+
+  <div
+    class="mt-10 mb-5 flex items-center gap-2 text-xl font-semibold text-zinc-800 dark:text-white"
+  >
+    Posts
+    <a href="/rss.xml" target="_blank">
+      <RssIcon
+        class="h-[22px] w-[22px] text-black/75 duration-300 hover:text-black sm:h-[20px] sm:w-[20px] dark:text-white/75 hover:dark:text-white"
+      />
+    </a>
+  </div>
+
+  <ul class="border-t border-zinc-300 dark:border-zinc-700">
+    {
+      sortedPosts.map((post) => (
+        <li class="border-b border-zinc-300 dark:border-zinc-700">
+          <a href={`/blog/${post.id}`}>
+            <PostsListItem
+              url={post.id}
+              title={post.data.title}
+              tags={post.data.tags}
+              date={formatDate(post.data.date)}
+            />
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</PageLayout>

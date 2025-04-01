@@ -1,3 +1,14 @@
 # [rbika.com](https://rbika.com)
 
-My personal website built with [Next.js](https://nextjs.org/) and hosted at [Vercel](https://vercel.com/).
+Personal website/blog.
+
+## Stack
+
+- Astro
+- Tailwind
+- Prettier
+- ESLint
+
+## Inspirations
+
+- https://astro-nano-demo.vercel.app/

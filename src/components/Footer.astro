@@ -1,0 +1,39 @@
+---
+import Container from './Container.astro';
+import SunIcon from '../../public/sun.svg';
+import SystemIcon from '../../public/system.svg';
+import MoonIcon from '../../public/moon.svg';
+
+const icons = [
+  {
+    id: 'sun-icon',
+    icon: SunIcon,
+  },
+  {
+    id: 'moon-icon',
+    icon: MoonIcon,
+  },
+  {
+    id: 'system-icon',
+    icon: SystemIcon,
+  },
+];
+---
+
+<footer class="pt-15 pb-5 text-sm">
+  <Container>
+    <div class="flex items-center justify-between">
+      <span>&copy; {new Date().getFullYear()} — rbika.com</span>
+      <div class="flex gap-1">
+        {
+          icons.map(({ id, icon: Icon }) => (
+            <Icon
+              id={id}
+              class="m-2 h-[18px] w-[18px] cursor-pointer transition-colors duration-300 hover:text-black sm:h-[16px] sm:w-[16px] dark:hover:text-white"
+            />
+          ))
+        }
+      </div>
+    </div>
+  </Container>
+</footer>

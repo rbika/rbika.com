@@ -1,0 +1,22 @@
+---
+title: 'Click Anywhere Within A Window To Move It'
+date: 'Mar 10 2025'
+description: 'Enabling a hidden setting from macOS.'
+tags: ['macOS', 'Productivity']
+---
+
+On macOS users can modify system settings using the `defaults` command. While most settings are available in the System Settings app, some can only be changed via the command line.
+
+One of these hidden settings allows you to move windows by clicking anywhere inside them, rather than just the title bar. To enable it, open the terminal and run:
+
+```bash frame="none"
+defaults write -g NSWindowShouldDragOnGesture -bool true
+```
+
+For the changes to take effect for a specific app you may need to close it with `Cmd` + `Q`. To apply the setting system-wide, log out and log back in. Now, you can hold `Cmd` + `Ctrl` and click anywhere within a window to move it
+
+To disable this behavior, just run:
+
+```bash frame="none"
+defaults write -g NSWindowShouldDragOnGesture -bool false
+```

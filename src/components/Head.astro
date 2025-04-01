@@ -1,0 +1,136 @@
+---
+import { ClientRouter } from 'astro:transitions';
+
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+}
+
+const isProd = import.meta.env.PROD;
+const { title, description, image = '/nano.png' } = Astro.props;
+---
+
+<head>
+  <!-- Global Metadata -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="generator" content={Astro.generator} />
+  <link
+    rel="icon"
+    type="image/svg+xml"
+    href="/favicon-dark.svg"
+    media="(prefers-color-scheme: dark)"
+  />
+  <link
+    rel="icon"
+    type="image/svg+xml"
+    href="/favicon-light.svg"
+    media="(prefers-color-scheme: light)"
+  />
+  <link rel="sitemap" href="/sitemap-index.xml" />
+  <link
+    rel="alternate"
+    type="application/rss+xml"
+    title="R Bika(s) Blog"
+    href={new URL('rss.xml', Astro.site)}
+  />
+
+  <!-- Primary Meta Tags -->
+  <title>{title}</title>
+  <meta name="description" content={description} />
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content={Astro.url} />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:image" content={new URL(image, Astro.url)} />
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:url" content={Astro.url} />
+  <meta property="twitter:title" content={title} />
+  <meta property="twitter:description" content={description} />
+  <meta property="twitter:image" content={new URL(image, Astro.url)} />
+
+  <!-- Scripts -->
+  <ClientRouter />
+  <script is:inline>
+    function preloadTheme() {
+      const userTheme = localStorage.theme;
+
+      if (userTheme === 'light' || userTheme === 'dark') {
+        toggleTheme(userTheme === 'dark');
+      } else {
+        toggleTheme(window.matchMedia('(prefers-color-scheme: dark)').matches);
+      }
+    }
+
+    function toggleTheme(dark) {
+      const css = document.createElement('style');
+      css.appendChild(
+        document.createTextNode(`* { transition: none !important; }`),
+      );
+      document.head.appendChild(css);
+
+      if (dark) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+
+      window.getComputedStyle(css).opacity;
+      document.head.removeChild(css);
+    }
+
+    function init() {
+      preloadTheme();
+
+      const moonIcon = document.getElementById('moon-icon');
+      moonIcon?.addEventListener('click', () => {
+        localStorage.setItem('theme', 'dark');
+        toggleTheme(true);
+      });
+
+      const sunIcon = document.getElementById('sun-icon');
+      sunIcon?.addEventListener('click', () => {
+        localStorage.setItem('theme', 'light');
+        toggleTheme(false);
+      });
+
+      const systemIcon = document.getElementById('system-icon');
+      systemIcon?.addEventListener('click', () => {
+        localStorage.setItem('theme', 'system');
+        toggleTheme(window.matchMedia('(prefers-color-scheme: dark)').matches);
+      });
+
+      window
+        .matchMedia('(prefers-color-scheme: dark)')
+        .addEventListener('change', (event) => {
+          if (localStorage.theme === 'system') {
+            toggleTheme(event.matches);
+          }
+        });
+    }
+
+    document.addEventListener("DOMContentLoaded", () => init());
+    document.addEventListener('astro:after-swap', () => init());
+    preloadTheme();
+  </script>
+
+  {isProd && (
+    <script
+      is:inline
+      src="https://www.googletagmanager.com/gtag/js?id=G-VTE1P0SNES"
+    ></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag('js', new Date());
+      gtag('config', 'G-VTE1P0SNES');
+    </script>
+  )}
+</head>

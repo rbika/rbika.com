@@ -1,0 +1,79 @@
+@import 'tailwindcss';
+@plugin "@tailwindcss/typography";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+body {
+  @apply font-sans antialiased;
+  @apply bg-zinc-50 dark:bg-zinc-900;
+  @apply text-black/75 dark:text-white/75;
+}
+
+html {
+  overflow-y: scroll;
+  color-scheme: light;
+}
+
+html.dark {
+  color-scheme: dark;
+}
+
+html,
+body {
+  @apply size-full;
+  @apply flex flex-col;
+}
+
+main {
+  @apply flex-1;
+}
+
+a {
+  @apply transition-colors duration-300;
+}
+a:hover {
+  @apply text-black dark:text-white;
+}
+
+/* Posts */
+article.post {
+  @apply prose prose-zinc dark:prose-invert prose-img:mx-auto prose-img:my-auto max-w-full;
+  @apply prose-headings:font-semibold prose-headings:text-zinc-800 prose-headings:dark:text-white;
+}
+
+/* Post headers */
+article.post h1 {
+  @apply text-2xl;
+}
+article.post h2 {
+  @apply text-xl;
+}
+article.post h3 {
+  @apply text-lg;
+}
+
+/* Post links */
+article.post a {
+  @apply font-sans text-current underline underline-offset-2;
+  @apply decoration-black/15 dark:decoration-white/30;
+  @apply transition-colors duration-300;
+}
+article.post a:hover {
+  @apply text-black dark:text-white;
+  @apply decoration-black/25 dark:decoration-white/50;
+}
+
+/* Post code text */
+article.post code {
+  @apply rounded border border-zinc-200 bg-zinc-100 dark:border-zinc-700 dark:bg-zinc-800;
+  @apply mx-0.5 px-1 py-[1px] font-normal;
+}
+article.post code::before,
+article.post code::after {
+  content: '';
+}
+
+/* Post images */
+article.post img {
+  @apply my-8 rounded-lg;
+}
