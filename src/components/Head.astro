@@ -1,5 +1,6 @@
 ---
 import { ClientRouter } from 'astro:transitions';
+import coverImage from '../images/coverImage.svg'
 
 interface Props {
   title: string;
@@ -8,7 +9,7 @@ interface Props {
 }
 
 const isProd = import.meta.env.PROD;
-const { title, description, image = '/nano.png' } = Astro.props;
+const { title, description, image = coverImage.src } = Astro.props;
 ---
 
 <head>
