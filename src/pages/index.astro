@@ -2,10 +2,10 @@
 import { getCollection } from 'astro:content';
 import PageLayout from '../layouts/PageLayout.astro';
 import '../styles/global.css';
-import xTwitterIcon from '../../public/x-twitter.svg';
-import blueskyIcon from '../../public/bluesky.svg';
-import githubIcon from '../../public/github.svg';
-import RssIcon from '../../public/square-rss.svg';
+import xTwitterIcon from '../images/x-twitter.svg';
+import blueskyIcon from '../images/bluesky.svg';
+import githubIcon from '../images/github.svg';
+import RssIcon from '../images/square-rss.svg';
 import PostsListItem from '@components/PostsListItem.astro';
 import { formatDate } from '../utils.ts';
 
@@ -32,7 +32,7 @@ const socialLinks = [
 ];
 ---
 
-<PageLayout title="Home" description="Home page.">
+<PageLayout title="" description="Front-end developer.">
   <p>Hi, my name is Rafael but you can call me Bika/Bikas.</p>
   <p>I write about web development and productivity tips.</p>
 
