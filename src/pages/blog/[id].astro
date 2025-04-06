@@ -33,7 +33,7 @@ const { Content } = await render(post);
 <PageLayout
   title={post.data.title}
   description={post.data.description}
-  image={post.data.coverImage}
+  image={post.data.coverImage?.src ?? ''}
 >
   <article class="post">
     <header class="mb-4">
