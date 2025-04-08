@@ -46,14 +46,14 @@ const { title, description, image = coverImage.src } = Astro.props;
   <meta property="og:url" content={Astro.url} />
   <meta property="og:title" content={title} />
   <meta property="og:description" content={description} />
-  <meta property="og:image" content={new URL(image, Astro.url)} />
+  <meta property="og:image" content={image} />
 
   <!-- Twitter -->
   <meta property="twitter:card" content="summary_large_image" />
   <meta property="twitter:url" content={Astro.url} />
   <meta property="twitter:title" content={title} />
   <meta property="twitter:description" content={description} />
-  <meta property="twitter:image" content={new URL(image, Astro.url)} />
+  <meta property="twitter:image" content={image} />
 
   <!-- Scripts -->
   <ClientRouter />
@@ -128,7 +128,7 @@ const { title, description, image = coverImage.src } = Astro.props;
     <script is:inline>
       window.dataLayer = window.dataLayer || [];
       function gtag() {
-        dataLayer.push(arguments);
+        window.dataLayer.push(arguments);
       }
       gtag('js', new Date());
       gtag('config', 'G-VTE1P0SNES');
