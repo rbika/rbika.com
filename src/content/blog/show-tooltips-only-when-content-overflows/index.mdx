@@ -3,14 +3,14 @@ title: 'Show tooltips only when content overflows'
 date: 'Jul 30 2025'
 tags: ['Web Development', 'React', 'Frontend', 'Utilities']
 description: 'Learn how to show tooltips only when content overflows its container.'
-coverImage: './images/show-tooltips-only-when-content-overflows-cover.svg'
+coverImage: './images/cover.svg'
 ---
 
 ## Introduction
 
 When dealing with dynamic data, content may not fit its container. A common solution is to truncate the text with ellipsis and display the full value in a tooltip on hover. However, tooltips are often displayed even when the text isn't truncated, which is unnecessary and distracting. Here's a quick tip on how to display the tooltip only when the text overflows its container.
 
-See the live demo on [Code Sandbox](https://codesandbox.io/p/sandbox/7cyt75).
+See the live demo on [Code Sandbox](https://codesandbox.io/p/sandbox/text-with-title-7cyt75?file=%2Fsrc%2FApp.tsx%3A17%2C13).
 
 ## Explanation
 
@@ -22,33 +22,3 @@ To detect if text is overflowing, we can compare the `scrollWidth` and the `clie
 If `scrollWidth` is greater than `clientWidth`, it means the content is overflowing horizontally.
 
 With this, we can conditionally apply a title attribute (or show a custom tooltip) only when needed.
-
-## Code Example
-
-```tsx showLineNumbers
-function TextWithTitle({ text }: { text: string }) {
-  const textRef = useRef<HTMLDivElement>(null);
-  const [isOverflowing, setIsOverflowing] = useState(false);
-
-  useEffect(() => {
-    const element = textRef.current;
-    if (!!element) {
-      setIsOverflowing(element.scrollWidth > element.clientWidth);
-    }
-  });
-
-  return (
-    <div
-      ref={textRef}
-      title={isOverflowing ? text : ''}
-      style={{
-        overflow: 'hidden',
-        textOverflow: 'ellipsis',
-        whiteSpace: 'nowrap',
-      }}
-    >
-      {text}
-    </div>
-  );
-}
-```
