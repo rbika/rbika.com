@@ -3,7 +3,6 @@ import { getCollection } from 'astro:content';
 import PageLayout from '../layouts/PageLayout.astro';
 import '../styles/global.css';
 import xTwitterIcon from '../images/x-twitter.svg';
-import blueskyIcon from '../images/bluesky.svg';
 import githubIcon from '../images/github.svg';
 import RssIcon from '../images/square-rss.svg';
 import PostsListItem from '@components/PostsListItem.astro';
@@ -18,11 +17,6 @@ const socialLinks = [
     label: 'X / Twitter',
     icon: xTwitterIcon,
     url: 'https://x.com/rbika',
-  },
-  {
-    label: 'Bluesky',
-    icon: blueskyIcon,
-    url: 'https://bsky.app/profile/rbika.bsky.social',
   },
   {
     label: 'Github',
