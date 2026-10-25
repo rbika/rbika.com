@@ -58,66 +58,45 @@ const { title, description, image = coverImage.src } = Astro.props;
   <!-- Scripts -->
   <ClientRouter />
   <script is:inline>
-    function preloadTheme() {
-      const userTheme = localStorage.theme;
-
-      if (userTheme === 'light' || userTheme === 'dark') {
-        toggleTheme(userTheme === 'dark');
-      } else {
-        toggleTheme(window.matchMedia('(prefers-color-scheme: dark)').matches);
+    function getThemePreference() {
+      if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
+        return localStorage.getItem('theme');
       }
+      return 'system';
     }
 
-    function toggleTheme(dark) {
+    function applyTheme() {
       const css = document.createElement('style');
       css.appendChild(
         document.createTextNode(`* { transition: none !important; }`),
       );
       document.head.appendChild(css);
 
-      if (dark) {
-        document.documentElement.classList.add('dark');
-      } else {
-        document.documentElement.classList.remove('dark');
-      }
+      const preference = getThemePreference();
+      const isDark =
+        preference === 'dark' ||
+        (preference !== 'light' &&
+          window.matchMedia('(prefers-color-scheme: dark)').matches);
+      document.documentElement.classList[isDark ? 'add' : 'remove']('dark');
 
       window.getComputedStyle(css).opacity;
       document.head.removeChild(css);
     }
 
-    function init() {
-      preloadTheme();
-
-      const moonIcon = document.getElementById('moon-icon');
-      moonIcon?.addEventListener('click', () => {
-        localStorage.setItem('theme', 'dark');
-        toggleTheme(true);
-      });
-
-      const sunIcon = document.getElementById('sun-icon');
-      sunIcon?.addEventListener('click', () => {
-        localStorage.setItem('theme', 'light');
-        toggleTheme(false);
-      });
-
-      const systemIcon = document.getElementById('system-icon');
-      systemIcon?.addEventListener('click', () => {
-        localStorage.setItem('theme', 'system');
-        toggleTheme(window.matchMedia('(prefers-color-scheme: dark)').matches);
-      });
-
+    function initTheme() {
+      applyTheme();
       window
         .matchMedia('(prefers-color-scheme: dark)')
-        .addEventListener('change', (event) => {
-          if (localStorage.theme === 'system') {
-            toggleTheme(event.matches);
+        .addEventListener('change', () => {
+          if (getThemePreference() === 'system') {
+            applyTheme();
           }
         });
     }
 
-    document.addEventListener("DOMContentLoaded", () => init());
-    document.addEventListener('astro:after-swap', () => init());
-    preloadTheme();
+    document.addEventListener('DOMContentLoaded', initTheme);
+    document.addEventListener('astro:after-swap', applyTheme);
+    applyTheme();
   </script>
 
   {isProd && (
