@@ -4,6 +4,7 @@ import tailwindcss from '@tailwindcss/vite';
 import expressiveCode from 'astro-expressive-code';
 import mdx from '@astrojs/mdx';
 import { pluginLineNumbers } from '@expressive-code/plugin-line-numbers';
+import react from '@astrojs/react';
 
 import sitemap from '@astrojs/sitemap';
 
@@ -13,16 +14,21 @@ export default defineConfig({
   vite: {
     plugins: [tailwindcss()],
   },
-  integrations: [expressiveCode({
-    themes: ['nord'],
-    plugins: [pluginLineNumbers()],
-    defaultProps: {
-      showLineNumbers: false,
-    },
-    frames: {
-      showCopyToClipboardButton: false,
-    },
-  }), mdx(), sitemap()],
+  integrations: [
+    expressiveCode({
+      themes: ['nord'],
+      plugins: [pluginLineNumbers()],
+      defaultProps: {
+        showLineNumbers: false,
+      },
+      frames: {
+        showCopyToClipboardButton: false,
+      },
+    }),
+    mdx(),
+    sitemap(),
+    react(),
+  ],
   experimental: {
     svg: true,
   },
