@@ -11,6 +11,7 @@ body {
 }
 
 html {
+  overflow-x: clip;
   overflow-y: scroll;
   color-scheme: light;
 }
@@ -201,4 +202,13 @@ article.post img {
   html {
     @apply font-sans;
   }
+}
+
+/* Code Breakout */
+article.post .expressive-code {
+  --code-breakout: min(46rem, calc(100vw - 3rem));
+  width: var(--code-breakout);
+  max-width: var(--code-breakout);
+  margin-left: calc(50% - var(--code-breakout) / 2);
+  margin-right: calc(50% - var(--code-breakout) / 2);
 }
