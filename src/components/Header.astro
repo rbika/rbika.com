@@ -1,5 +1,6 @@
 ---
 import Container from './Container.astro';
+import { ModeToggle } from '@/components/ModeToggle';
 ---
 
 <header>
@@ -11,10 +12,13 @@ import Container from './Container.astro';
       >
         R Bika(s)
       </a>
-      <nav class="flex justify-center gap-5 text-[13px] uppercase">
-        <a href="/" class="duration-300 hover:text-white">Home</a>
-        <a href="/uses" class="duration-300 hover:text-white">Uses</a>
-      </nav>
+      <div class="flex items-center gap-5">
+        <nav class="flex justify-center gap-5 text-[15px]">
+          <a href="/" class="duration-300 hover:text-white">Home</a>
+          <a href="/uses" class="duration-300 hover:text-white">Uses</a>
+        </nav>
+        <ModeToggle client:load />
+      </div>
     </div>
   </Container>
 </header>

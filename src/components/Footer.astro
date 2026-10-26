@@ -1,13 +1,9 @@
 ---
 import Container from './Container.astro';
-import { ModeToggle } from '@/components/ModeToggle';
 ---
 
 <footer class="pt-15 pb-5 text-sm">
   <Container>
-    <div class="flex items-center justify-between">
-      <span>&copy; {new Date().getFullYear()} — rbika.com</span>
-      <ModeToggle client:load />
-    </div>
+    <span>&copy; {new Date().getFullYear()} rbika.com</span>
   </Container>
 </footer>

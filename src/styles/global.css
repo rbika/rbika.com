@@ -212,3 +212,10 @@ article.post .expressive-code {
   margin-left: calc(50% - var(--code-breakout) / 2);
   margin-right: calc(50% - var(--code-breakout) / 2);
 }
+
+@layer base {
+  button:not(:disabled),
+  [role='button']:not(:disabled) {
+    cursor: pointer;
+  }
+}
