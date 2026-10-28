@@ -58,6 +58,26 @@ const { title, description, image = coverImage.src } = Astro.props;
   <!-- Scripts -->
   <ClientRouter />
   <script is:inline>
+    // Safari and mobile View Transitions are janky (flicker, swipe-back).
+    // Keep ClientRouter, but skip the animation and do an instant DOM swap.
+    const isSafari = navigator.vendor === 'Apple Computer, Inc.';
+    const isMobile = window.matchMedia(
+      '(hover: none) and (pointer: coarse)',
+    ).matches;
+    if (isSafari || isMobile) {
+      document.startViewTransition = undefined;
+      const setSwapFallback = (doc = document) => {
+        doc
+          .querySelector('meta[name="astro-view-transitions-fallback"]')
+          ?.setAttribute('content', 'swap');
+      };
+      setSwapFallback();
+      document.addEventListener('astro:before-swap', (e) => {
+        setSwapFallback(e.newDocument);
+      });
+    }
+  </script>
+  <script is:inline>
     function getThemePreference() {
       if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
         return localStorage.getItem('theme');
