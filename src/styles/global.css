@@ -30,10 +30,10 @@ main {
   @apply flex-1;
 }
 
-a {
+a:not([data-slot='button']) {
   @apply transition-colors duration-300;
 }
-a:hover {
+a:not([data-slot='button']):hover {
   @apply text-black dark:text-white;
 }
 

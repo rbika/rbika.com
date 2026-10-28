@@ -16,7 +16,9 @@ export default defineConfig({
   },
   integrations: [
     expressiveCode({
-      themes: ['nord'],
+      themes: ['catppuccin-latte', 'nord'],
+      useDarkModeMediaQuery: false,
+      themeCssSelector: (theme) => (theme.name === 'nord' ? '.dark' : false),
       plugins: [pluginLineNumbers()],
       defaultProps: {
         showLineNumbers: false,
