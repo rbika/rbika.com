@@ -6,6 +6,8 @@ import RssIcon from '../../../images/square-rss.svg';
 import PostsListItem from '@components/PostsListItem.astro';
 import { formatDate } from '../../../utils.ts';
 import { tagsInUse } from '../../../content/tags';
+import { buttonVariants } from '@components/ui/button';
+import { cn } from 'cn';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog');
@@ -35,9 +37,18 @@ const { tag, posts } = Astro.props;
         />
       </a>
     </div>
-    <div class="mt-3 flex items-center gap-3 text-sm">
-      <span class="font-mono">{tag.label}</span>
-      <a href="/blog" class="no-underline">Clear</a>
+    <div class="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1">
+      <span class="text-sm font-semibold">Tag:</span>
+      <span><span class="font-mono text-[11px]">{tag.label}</span></span>
+      <a
+        href="/blog"
+        class={cn(
+          buttonVariants({ variant: 'outline', size: 'xs' }),
+          'ml-auto',
+        )}
+      >
+        Clear filter
+      </a>
     </div>
   </header>
 
