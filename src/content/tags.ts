@@ -4,15 +4,16 @@ export type Tag = {
 };
 
 export const tags: Tag[] = [
-  { label: 'Frontend', slug: 'frontend' },
   { label: 'HTTP', slug: 'http' },
+  { label: 'CORS', slug: 'cors' },
+  { label: 'Caching', slug: 'caching' },
   { label: 'macOS', slug: 'macos' },
   { label: 'Productivity', slug: 'productivity' },
   { label: 'React', slug: 'react' },
   { label: 'SSE', slug: 'sse' },
   { label: 'Server-Sent Events', slug: 'server-sent-events' },
-  { label: 'Typescript', slug: 'typescript' },
   { label: 'Utilities', slug: 'utilities' },
+  { label: 'UX', slug: 'ux' },
   { label: 'Web Development', slug: 'web-development' },
 ];
 
