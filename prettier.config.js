@@ -7,6 +7,12 @@ const config = {
         parser: 'astro',
       },
     },
+    {
+      files: '*.mdx',
+      options: {
+        embeddedLanguageFormatting: 'off',
+      },
+    },
   ],
   singleQuote: true,
   tabWidth: 2,
