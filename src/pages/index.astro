@@ -71,14 +71,12 @@ const socialLinks = [
     {
       sortedPosts.map((post) => (
         <li class="border-b border-zinc-300 dark:border-zinc-700">
-          <a href={`/blog/${post.id}`}>
-            <PostsListItem
-              url={post.id}
-              title={post.data.title}
-              tags={post.data.tags}
-              date={formatDate(post.data.date)}
-            />
-          </a>
+          <PostsListItem
+            url={post.id}
+            title={post.data.title}
+            tags={post.data.tags}
+            date={formatDate(post.data.date)}
+          />
         </li>
       ))
     }

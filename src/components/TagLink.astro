@@ -1,0 +1,15 @@
+---
+import { getTag, tagHref } from '../content/tags';
+
+interface Props {
+  slug: string;
+  class?: string;
+}
+
+const { slug, class: className } = Astro.props;
+const tag = getTag(slug);
+---
+
+<a href={tagHref(slug)} class:list={['font-mono no-underline!', className]}
+  >{tag.label}</a
+>

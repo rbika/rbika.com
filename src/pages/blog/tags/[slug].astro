@@ -1,0 +1,58 @@
+---
+import { getCollection } from 'astro:content';
+import PageLayout from '../../../layouts/PageLayout.astro';
+import '../../../styles/global.css';
+import RssIcon from '../../../images/square-rss.svg';
+import PostsListItem from '@components/PostsListItem.astro';
+import { formatDate } from '../../../utils.ts';
+import { tagsInUse } from '../../../content/tags';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  const usedTags = tagsInUse(posts.flatMap((post) => post.data.tags));
+
+  return usedTags.map((tag) => ({
+    params: { slug: tag.slug },
+    props: {
+      tag,
+      posts: posts
+        .filter((post) => post.data.tags.includes(tag.slug))
+        .sort((a, b) => b.data.date.getTime() - a.data.date.getTime()),
+    },
+  }));
+}
+
+const { tag, posts } = Astro.props;
+---
+
+<PageLayout title={tag.label} description="Front-end developer.">
+  <header class="mb-8">
+    <div class="flex items-center gap-2">
+      <h1 class="text-xl font-semibold text-black dark:text-white">Blog</h1>
+      <a href="/rss.xml" target="_blank">
+        <RssIcon
+          class="h-[22px] w-[22px] text-black/75 duration-300 hover:text-black sm:h-[20px] sm:w-[20px] dark:text-white/75 hover:dark:text-white"
+        />
+      </a>
+    </div>
+    <div class="mt-3 flex items-center gap-3 text-sm">
+      <span class="font-mono">{tag.label}</span>
+      <a href="/blog" class="no-underline">Clear</a>
+    </div>
+  </header>
+
+  <ul class="border-t border-zinc-300 dark:border-zinc-700">
+    {
+      posts.map((post) => (
+        <li class="border-b border-zinc-300 dark:border-zinc-700">
+          <PostsListItem
+            url={post.id}
+            title={post.data.title}
+            tags={post.data.tags}
+            date={formatDate(post.data.date)}
+          />
+        </li>
+      ))
+    }
+  </ul>
+</PageLayout>

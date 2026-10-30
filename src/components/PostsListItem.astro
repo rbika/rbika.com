@@ -1,4 +1,6 @@
 ---
+import TagLink from './TagLink.astro';
+
 interface Props {
   url: string;
   title: string;
@@ -9,22 +11,22 @@ interface Props {
 const { url, title, tags, date } = Astro.props;
 ---
 
-<a
-  href={`/blog/${url}`}
-  class="flex flex-col justify-between gap-2 pt-4 pb-5 no-underline transition-colors duration-300 sm:gap-1"
->
-  <div class="flex flex-col justify-between sm:flex-row">
+<div class="flex flex-col justify-between gap-2 pt-4 pb-5 sm:gap-1">
+  <a
+    href={`/blog/${url}`}
+    class="flex flex-col justify-between no-underline sm:flex-row"
+  >
     <span>{title}</span>
     <span class="text-sm">{date}</span>
-  </div>
+  </a>
   <div class="flex flex-wrap gap-x-2 gap-y-1 text-xs">
     {
-      tags.map((tag: string, index: number) => (
-        <span class="flex items-center justify-center font-mono text-[11px] opacity-70">
-          {tag}
-          {index != tags.length - 1 && <span>,</span>}
+      tags.map((slug, index) => (
+        <span class="flex items-center justify-center">
+          <TagLink slug={slug} class="text-[11px] opacity-70" />
+          {index != tags.length - 1 && <span class="opacity-70">,</span>}
         </span>
       ))
     }
   </div>
-</a>
+</div>
