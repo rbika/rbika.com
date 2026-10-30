@@ -1,0 +1,693 @@
+---
+title: 'Working with Server-Sent Events'
+date: 'Oct 29 2026'
+tags:
+  [
+    'HTTP',
+    'Web Development',
+    'React',
+    'Server-Sent Events',
+    'SSE',
+    'Typescript',
+  ]
+description: 'Learn how Server-Sent Events (SSE) work and how to implement real time updates using EventSource and fetch.'
+---
+
+## What Is Server-Sent Events?
+
+Displaying the progress of long-running operations is a common requirement in modern web applications. While polling can be used to display intermediate progress updates, it generates repeated requests and may not reflect changes immediately.
+
+Server-Sent Events (SSE) is a simple yet powerful alternative that allows the server to stream updates to the client over a single HTTP connection.
+
+In this article, we'll explore how SSE works by building a deployment pipeline simulation using Next.js. We'll cover two ways of implementing SSE in the frontend and compare their differences.
+
+See the [live demo](https://sse-demo-rbika.vercel.app/).  
+See the [source code](https://github.com/rbika/sse-demo).
+
+## SSE vs Other Approaches
+
+SSE is just one way to deliver updates from a server to a client. Other approaches, such as polling and WebSockets, offer different trade-offs depending on the use case.
+
+| Feature                       | Polling                                 | SSE                                           | WebSockets                                     |
+| ----------------------------- | --------------------------------------- | --------------------------------------------- | ---------------------------------------------- |
+| **Connection**                | A new HTTP request for each poll        | Persistent HTTP connection                    | Persistent connection                          |
+| **How it works**              | Client periodically requests updates    | Server pushes events to the client            | Supports messages in both directions           |
+| **Communication protocol**    | HTTP                                    | HTTP                                          | WebSocket protocol                             |
+| **Implementation complexity** | Low                                     | Low to moderate                               | Moderate to high                               |
+| **Best suited for**           | Periodically refreshed data             | One-way server-to-client updates              | Bidirectional, real time communication         |
+| **Example use cases**         | Refreshing a dashboard every 30 seconds | Deployment progress, notifications, live logs | Chat, multiplayer games, collaborative editing |
+
+The main advantage of SSE is its simplicity. When an application primarily needs to receive updates from the server, SSE provides a straightforward solution without requiring the additional complexity of a bidirectional communication protocol like WebSockets.
+
+## How SSE Works
+
+### Establishing the connection
+
+SSE uses an HTTP connection to stream events from the server to the client. The client sends a request to an endpoint, and the server responds with a `Content-Type: text/event-stream` header to indicate that the response contains a stream of events.
+
+Once the connection is established, the server can keep it open and send events as they become available, without requiring a new request for each one.
+
+### The SSE message format
+
+SSE uses a simple stream of text data. Each event consists of one or more fields, with a blank line marking the end of the message. Lines beginning with a colon are comments.
+
+The client reads the response stream and processes each event according to the SSE format. The way this happens depends on the API used to consume the stream.
+
+An SSE message looks like this:
+
+```plaintext showLineNumbers
+event: progress
+id: 42
+data: {"progress":60}
+retry: 3000
+​
+```
+
+Let's break it down:
+
+- `event`: Optional. Specifies the event type. If omitted, it defaults to `message`.
+- `data`: Contains the event payload.
+- `id`: Optional. Assigns an identifier to the event. It can be used to track the last received event and sending it when reconnecting, allowing the server to resume the stream or replay missed events.
+- `retry`: Optional. Specifies the reconnection delay, in milliseconds, for clients that support automatic reconnection.
+- _Blank line_: Marks the end of an event and signals that it can be dispatched to the client.
+
+**Note:** the server can periodically send comment lines, such as `: keep-alive`, to help prevent some intermediaries from closing an idle connection due to timeouts. These comments are ignored by the client and do not trigger application events.
+
+**Note:** SSE does not require the payload to be JSON, however, it's common to use it when the application needs to transmit structured data.
+
+### Closing the connection
+
+An SSE stream stays open until it is closed by the client or server, or interrupted by a network failure. Each side should handle these situations appropriately.
+
+## Implementing the SSE endpoint
+
+To see how SSE works in practice, let's implement an endpoint using a Next.js Route Handler.
+
+The endpoint will simulate a pipeline progressing through several stages, sending updates to the client as each stage completes. Instead of returning a single JSON response, it will stream a sequence of Server-Sent Events over an HTTP connection.
+
+```typescript showLineNumbers
+const PIPELINE = [
+  'Cloning',
+  'Installing dependencies',
+  'Linting',
+  'Testing',
+  'Building',
+  'Deploying',
+] as const
+
+type Status = 'pending' | 'running' | 'completed' | 'failed' | 'skipped'
+
+type Step = { name: (typeof PIPELINE)[number]; status: Status }
+
+type Snapshot = Step[]
+
+type Outcome = 'success' | 'error'
+
+// Defines the index of the Step that will fail.
+const FAIL_STEP_INDEX = PIPELINE.indexOf('Testing')
+
+// Waits for a step to complete.
+const waitForStep = () =>
+  new Promise<void>((resolve) => {
+    setTimeout(resolve, 1800)
+  })
+
+// Formats a Pipeline Snapshot as a named SSE event.
+// SSE fields are separated by newlines, and a blank line ends each event.
+const encodeRunEvent = (snapshot: Snapshot) =>
+  `event: run\ndata: ${JSON.stringify(snapshot)}\n\n`
+
+// Creates a Snapshot of the Pipeline.
+const getPipelineSnapshot = (completedCount: number): Snapshot =>
+  PIPELINE.map((name, index) => {
+    if (index < completedCount) {
+      return { name, status: 'completed' }
+    }
+
+    if (index === completedCount) {
+      return { name, status: 'running' }
+    }
+
+    return { name, status: 'pending' }
+  })
+
+// Creates the error Terminal Snapshot.
+const getErrorTerminalSnapshot = (): Snapshot =>
+  PIPELINE.map((name, index) => {
+    if (index < FAIL_STEP_INDEX) {
+      return { name, status: 'completed' }
+    }
+    if (index === FAIL_STEP_INDEX) {
+      return { name, status: 'failed' }
+    }
+    return { name, status: 'skipped' }
+  })
+
+// Next.js Route Handler that streams Snapshots as SSE.
+export function GET(request: Request): Response {
+  // Extracts the outcome parameter from the request URL.
+  const outcomeParam = new URL(request.url).searchParams.get('outcome')
+  if (outcomeParam !== 'success' && outcomeParam !== 'error') {
+    return new Response(null, { status: 400 })
+  }
+  const outcome: Outcome = outcomeParam
+
+  // Converts strings into bytes, which the response stream requires.
+  const encoder = new TextEncoder()
+
+  // Creates a stream that produces data incrementally.
+  const stream = new ReadableStream({
+    async start(controller) {
+      // Serializes a Snapshot and adds it to the response stream.
+      const enqueue = (snapshot: Snapshot) => {
+        controller.enqueue(encoder.encode(encodeRunEvent(snapshot)))
+      }
+
+      // Resolves when the client disconnects. Raced against the Step delay
+      // so the stream can close without waiting out the timeout.
+      const handleAbort = new Promise<void>((resolve) => {
+        // Already disconnected, resolve immediately.
+        if (request.signal.aborted) {
+          resolve()
+          return
+        }
+        request.signal.addEventListener('abort', () => resolve(), {
+          once: true,
+        })
+      })
+
+      // Determines the index of the last running Step based on the
+      // Outcome.
+      const lastRunningIndex =
+        outcome === 'error' ? FAIL_STEP_INDEX : PIPELINE.length - 1
+
+      // Send the first Snapshot of the Run, then a Snapshot after each
+      // Step transition. The last loop iteration still has a running Step.
+      // The Terminal Snapshot is sent after the loop.
+      for (
+        let completedCount = 0;
+        completedCount <= lastRunningIndex;
+        completedCount++
+      ) {
+        // Sends a Snapshot of the Pipeline.
+        enqueue(getPipelineSnapshot(completedCount))
+
+        // Waits before the next Snapshot, but aborts if the request
+        // is aborted.
+        await Promise.race([waitForStep(), handleAbort])
+        if (request.signal.aborted) {
+          controller.close()
+          return
+        }
+      }
+
+      // Sends the Terminal Snapshot.
+      enqueue(
+        outcome === 'error'
+          ? getErrorTerminalSnapshot()
+          : getPipelineSnapshot(PIPELINE.length),
+      )
+
+      // Signals that no more events will be sent.
+      controller.close()
+    },
+  })
+
+  // Returns the stream with headers identifying it as an SSE response.
+  // The Content-Type header identifies the response as an SSE stream.
+  // The Cache-Control header discourages caching and intermediary
+  // transformations that could interfere with streaming.
+  return new Response(stream, {
+    headers: {
+      'Content-Type': 'text/event-stream; charset=utf-8',
+      'Cache-Control': 'no-cache, no-transform',
+    },
+  })
+}
+```
+
+There are three key parts to this implementation:
+
+- **Formatting the events**: The `encodeRunEvent` function converts a pipeline snapshot into an SSE event. The `event` field identifies the event type as run, while the `data` field contains the pipeline state serialized as JSON. The blank line at the end is important: it marks the end of the event, allowing the client to recognize when a complete message has arrived.
+
+- **Streaming the updates**: The `ReadableStream` lets the server produce data incrementally. Each call to `controller.enqueue()` adds another update to the stream, which the client can consume as data arrives. In this simulation, the server sends an initial snapshot and then sends another every 1.8 seconds. Each snapshot represents the entire pipeline state, including completed, running, and pending stages.
+
+- **Ending the stream**: After sending the final snapshot, in which every stage is completed, the server calls `controller.close()` to signal that no more data will be produced. Notice that the final event and the closing of the stream serve different purposes: the event communicates the pipeline's final state, while closing the stream signals the end of the response.
+
+## Consuming SSE in the frontend
+
+With the backend in place, let's connect the frontend to the stream and use the events to update the UI. We'll cover two different approaches to consume the SSE stream: the native EventSource API and the Fetch API.
+
+### Using EventSource
+
+EventSource is the browser's built-in API for consuming SSE. It opens a persistent HTTP connection and dispatches incoming events to registered listeners.
+
+```typescript showLineNumbers
+'use client'
+
+import { useEffect, useRef, useState } from 'react'
+
+const PIPELINE = [
+  'Cloning',
+  'Installing dependencies',
+  'Linting',
+  'Testing',
+  'Building',
+  'Deploying',
+] as const
+
+type Status = 'pending' | 'running' | 'completed' | 'failed' | 'skipped'
+
+type Step = { name: (typeof PIPELINE)[number]; status: Status }
+
+type Snapshot = Step[]
+
+// Used to determine the outcome of a Run.
+type Outcome = 'success' | 'error'
+
+// Idle Snapshot: Every Step is pending.
+const IDLE_SNAPSHOT: Snapshot = PIPELINE.map((name) => ({
+  name,
+  status: 'pending',
+}))
+
+// A Run is Terminal once all Steps have one of these statuses.
+const TERMINAL_STATUSES: Status[] = ['completed', 'failed', 'skipped']
+const isTerminalSnapshot = (snapshot: Snapshot) =>
+  snapshot.length > 0 &&
+  snapshot.every((step) => TERMINAL_STATUSES.includes(step.status))
+
+// SseEventSource component
+const SseEventSource = () => {
+  const [steps, setSteps] = useState<Snapshot>(IDLE_SNAPSHOT)
+  const [inProgress, setInProgress] = useState(false)
+
+  // Keep the instance so we can close() it on unmount, when the current
+  // Run becomes Terminal, and on error.
+  const eventSourceRef = useRef<EventSource | null>(null)
+
+  // Event listeners close over the render that created them, so
+  // `inProgress` state would be stale inside onerror. The ref is the
+  // live "a current Run" flag those listeners can read.
+  const inProgressRef = useRef(false)
+
+  // Close the EventSource and mark that there is no current Run. Used
+  // when the current Run becomes Terminal and on error.
+  const stopRun = () => {
+    eventSourceRef.current?.close()
+    eventSourceRef.current = null
+    inProgressRef.current = false
+    setInProgress(false)
+  }
+
+  // On unmount, close the EventSource so the browser drops the SSE
+  // connection.
+  useEffect(() => {
+    return () => {
+      eventSourceRef.current?.close()
+    }
+  }, [])
+
+  // Start a new Run. This function is called when the user clicks the
+  // Simulate Success or Simulate Error button.
+  const startRun = (outcome: Outcome) => {
+    // Guard against a second click.
+    if (inProgressRef.current) {
+      return
+    }
+
+    inProgressRef.current = true
+    setInProgress(true)
+
+    // Start the SSE connection by creating an EventSource.
+    const eventSource = new EventSource(`/api/run?outcome=${outcome}`)
+    eventSourceRef.current = eventSource
+
+    // Named events: the server sends `event: run`, so we listen for "run".
+    eventSource.addEventListener('run', (event: MessageEvent<string>) => {
+      const snapshot = JSON.parse(event.data) as Snapshot
+      setSteps(snapshot)
+
+      if (!isTerminalSnapshot(snapshot)) {
+        return
+      }
+
+      // EventSource reconnects automatically when the server closes the
+      // stream. We saw a Terminal Snapshot, so close it ourselves instead
+      // of letting it retry GET /api/run.
+      stopRun()
+
+      if (outcome === 'error') {
+        console.log('Testing failed.')
+      } else {
+        console.log('Every Step completed.')
+      }
+    })
+
+    eventSource.onerror = () => {
+      stopRun()
+
+      // onerror fires for real network drops *and* after we close() a
+      // Terminal Run. Use the ref to tell those apart: if we already
+      // marked the Run Terminal, ignore this.
+      if (!inProgressRef.current) {
+        return
+      }
+
+      // If there was still a current Run, the connection died mid-Run.
+      // Return to Idle.
+      setSteps(IDLE_SNAPSHOT)
+
+      console.log('Connection lost. Please try again.')
+    }
+  }
+
+  return (
+    <div className="flex flex-col items-start gap-4">
+      <button
+        type="button"
+        disabled={inProgress}
+        onClick={() => startRun('success')}
+      >
+        Simulate success
+      </button>
+      <button
+        type="button"
+        disabled={inProgress}
+        onClick={() => startRun('error')}
+      >
+        Simulate error
+      </button>
+      <ol className="space-y-1">
+        {steps.map((step) => (
+          <li key={step.name} className="flex items-center gap-3 py-1.5">
+            <span className="text-base">{step.name}</span> -{' '}
+            <span className="text-base">{step.status}</span>
+          </li>
+        ))}
+      </ol>
+    </div>
+  )
+}
+
+export { SseEventSource }
+```
+
+Although EventSource provides a convenient way to consume SSE, it has some limitations:
+
+- **GET requests only**: You can't use EventSource to send a POST request or include a request body.
+- **Limited request configuration**: You can't set arbitrary request headers, such as an Authorization header. Cross-origin requests can use credentials through the withCredentials option, but this doesn't allow arbitrary header configuration.
+
+### Using the Fetch API
+
+The fetch API provides an alternative way to consume SSE when you need more control over the HTTP request. Unlike EventSource, it supports custom headers, different HTTP methods, request bodies, and cancellation through an AbortController.
+
+However, fetch exposes the response body as a readable byte stream rather than dispatching SSE events automatically. The client must read the stream incrementally, parse the SSE message format, and handle connection errors and cancellation itself.
+
+Here is an example of how to use the Fetch API to consume SSE:
+
+```typescript showLineNumbers
+'use client'
+
+import { useEffect, useRef, useState } from 'react'
+
+const PIPELINE = [
+  'Cloning',
+  'Installing dependencies',
+  'Linting',
+  'Testing',
+  'Building',
+  'Deploying',
+] as const
+
+type Status = 'pending' | 'running' | 'completed' | 'failed' | 'skipped'
+
+type Step = { name: (typeof PIPELINE)[number]; status: Status }
+
+type Snapshot = Step[]
+
+// Used to determine the outcome of a Run.
+type Outcome = 'success' | 'error'
+
+type SseEvent = { event: string; data: string }
+
+// Idle Snapshot: Every Step is pending.
+const IDLE_SNAPSHOT: Snapshot = PIPELINE.map((name) => ({
+  name,
+  status: 'pending',
+}))
+
+// A Run is Terminal once all Steps have one of these statuses.
+const TERMINAL_STATUSES: Status[] = ['completed', 'failed', 'skipped']
+const isTerminalSnapshot = (snapshot: Snapshot) =>
+  snapshot.length > 0 &&
+  snapshot.every((step) => TERMINAL_STATUSES.includes(step.status))
+
+// Parses complete SSE events out of a raw fetch buffer. Network chunks
+// don't line up with events, so leftover text comes back as `rest`.
+const consumeSseEvents = (
+  buffer: string,
+): { events: SseEvent[]; rest: string } => {
+  // Fetch gives you a raw byte stream — unlike EventSource, it does not
+  // parse SSE for you. Network chunks do not line up with events: one
+  // chunk can hold several events, or a single event can be split across
+  // two chunks. Split on `\n\n`.
+  const chunks = buffer.split('\n\n')
+
+  // Trailing fragment to prepend onto the next chunk.
+  const rest = chunks.pop() ?? ''
+
+  const events: SseEvent[] = []
+
+  // Emit every complete event.
+  for (const chunk of chunks) {
+    let event = 'message'
+    const data: string[] = []
+
+    for (const line of chunk.split('\n')) {
+      if (line.startsWith('event:')) {
+        event = line.slice(6).trimStart()
+        continue
+      }
+      if (line.startsWith('data:')) {
+        data.push(line.slice(5).trimStart())
+      }
+    }
+
+    if (data.length === 0) {
+      continue
+    }
+
+    events.push({ event, data: data.join('\n') })
+  }
+
+  return { events, rest }
+}
+
+// SseFetch component
+const SseFetch = () => {
+  const [steps, setSteps] = useState<Snapshot>(IDLE_SNAPSHOT)
+  const [inProgress, setInProgress] = useState(false)
+
+  // Fetch is cancelled with AbortController (EventSource uses close()).
+  // Keep the controller so we can abort() on unmount, when the current Run
+  // becomes Terminal, and on error.
+  const abortControllerRef = useRef<AbortController | null>(null)
+
+  // Event listeners close over the render that created them, so
+  // `inProgress`state would be stale inside onerror. The ref is the
+  // live "a current Run" flag those listeners can read.
+  const inProgressRef = useRef(false)
+
+  // Abort the fetch and mark that there is no current Run. Used when the
+  // current Run becomes Terminal and on error.
+  const stopRun = () => {
+    abortControllerRef.current?.abort()
+    abortControllerRef.current = null
+    inProgressRef.current = false
+    setInProgress(false)
+  }
+
+  // On unmount, abort the fetch so the browser drops the SSE connection.
+  useEffect(() => {
+    return () => {
+      abortControllerRef.current?.abort()
+    }
+  }, [])
+
+  // Start a new Run. Called when the user clicks Simulate Success or
+  // Simulate Error.
+  const startRun = (outcome: Outcome) => {
+    // Guard against a second click.
+    if (inProgressRef.current) {
+      return
+    }
+
+    inProgressRef.current = true
+    setInProgress(true)
+
+    const abortController = new AbortController()
+    abortControllerRef.current = abortController
+
+    // Start the fetch request.
+    void (async () => {
+      try {
+        const response = await fetch(`/api/run?outcome=${outcome}`, {
+          // Tie this request to the controller so stopRun() / unmount can
+          // cancel it. Without a signal, the read loop keeps running after
+          // we consider the Run finished.
+          signal: abortController.signal,
+          // An event stream must never be served from cache.
+          cache: 'no-store',
+          // Tell the server (and any proxy) we want SSE, not a
+          // regular JSON response. EventSource sets this header
+          // automatically.
+          headers: { Accept: 'text/event-stream' },
+        })
+
+        // A non-OK status or a missing body means we never got a stream.
+        // Throw so the catch path treats it like a dropped connection.
+        if (!response.ok || !response.body) {
+          throw new Error('Connection lost. Please try again.')
+        }
+
+        // getReader() unlocks the body as chunks of bytes.
+        const reader = response.body.getReader()
+
+        // TextDecoder turns those bytes into a string.
+        const decoder = new TextDecoder()
+
+        let buffer = ''
+
+        while (true) {
+          const { done, value } = await reader.read()
+
+          // done equals true means the server closed the stream.
+          // Fetch does not reconnect (EventSource would).
+          if (done) {
+            const droppedMidRun = inProgressRef.current
+            stopRun()
+
+            // We already called stopRun() after a Terminal Snapshot.
+            // The stream ending is expected — ignore it.
+            if (!droppedMidRun) {
+              return
+            }
+
+            // inProgressRef is still true: the connection died mid-Run.
+            // Return the Pipeline to Idle and tell the user.
+            setSteps(IDLE_SNAPSHOT)
+            console.log('Connection lost. Please try again.')
+            return
+          }
+
+          // Append this chunk, peel off every complete event, and keep
+          // the leftover fragment in `buffer` for the next read.
+          buffer += decoder.decode(value, { stream: true })
+          const parsed = consumeSseEvents(buffer)
+          buffer = parsed.rest
+
+          for (const event of parsed.events) {
+            // Named events: the server sends `event: run`. Skip comments,
+            // heartbeats, and any other event name. EventSource does this
+            // filter for you via addEventListener('run', ...).
+            if (event.event !== 'run') {
+              continue
+            }
+
+            const snapshot = JSON.parse(event.data) as Snapshot
+            setSteps(snapshot)
+
+            if (!isTerminalSnapshot(snapshot)) {
+              continue
+            }
+
+            // Fetch does not reconnect when the server closes the stream,
+            // but abort anyway so a late chunk cannot update state after
+            // the toast.
+            stopRun()
+
+            if (outcome === 'error') {
+              console.log('Testing failed')
+            } else {
+              console.log('Every Step completed')
+            }
+
+            return
+          }
+        }
+      } catch {
+        // abort() rejects the fetch with AbortError. That is expected when
+        // we stop a Terminal Run or unmount. Ignore it. Any other
+        // rejection during a Run is a dropped connection (network
+        // error, 5xx, etc.).
+        if (abortController.signal.aborted) {
+          return
+        }
+
+        const droppedMidRun = inProgressRef.current
+        stopRun()
+
+        if (!droppedMidRun) {
+          return
+        }
+
+        setSteps(IDLE_SNAPSHOT)
+        console.log('Connection lost')
+      }
+    })()
+  }
+
+  return (
+    <div className="flex flex-col items-start gap-4">
+      <button
+        type="button"
+        disabled={inProgress}
+        onClick={() => startRun('success')}
+      >
+        Simulate success
+      </button>
+      <button
+        type="button"
+        disabled={inProgress}
+        onClick={() => startRun('error')}
+      >
+        Simulate error
+      </button>
+      <ol className="space-y-1">
+        {steps.map((step) => (
+          <li key={step.name} className="flex items-center gap-3 py-1.5">
+            <span className="text-base">{step.name}</span> -{' '}
+            <span className="text-base">{step.status}</span>
+          </li>
+        ))}
+      </ol>
+    </div>
+  )
+}
+
+export { SseFetch }
+```
+
+### Choosing the right approach
+
+The right choice depends on your application's requirements and how much control you need over the connection.
+
+Use `EventSource` when you need a straightforward way to receive server updates and its built-in behavior meets your requirements.
+
+Choose `fetch` when you need more control over the request, such as sending authorization headers, using a POST request, or managing cancellation and reconnection yourself.
+
+| Feature                   | EventSource                                             | Fetch                                                |
+| ------------------------- | ------------------------------------------------------- | ---------------------------------------------------- |
+| HTTP methods              | GET only                                                | Any supported method                                 |
+| Custom request headers    | Not supported                                           | Supported                                            |
+| Request body              | Not supported                                           | Supported                                            |
+| Receiving events          | Automatically parses SSE messages and dispatches events | Requires reading the stream and parsing SSE messages |
+| Automatic reconnection    | Built in                                                | Must be implemented manually                         |
+| Implementation complexity | Low to moderate                                         | Moderate to high                                     |
+
+## Conclusion
+
+Server-Sent Events provide a simple and efficient way to stream real time data from the server to the client. Whether you use EventSource or fetch, SSE is great for use cases like notifications, progress tracking, and live feeds.
+
+The implementations above show the core concepts of SSE, but production applications need to account for a few additional challenges such as resuming a stream after a reconnection, resending missed events, handling errors appropriately, and other edge cases. To handle these cases reliably, consider using a well maintained SSE library rather than implementing everything from scratch. By understanding these considerations, you can build robust and efficient SSE applications that meet your needs.

@@ -1,14 +1,22 @@
 # [rbika.com](https://rbika.com)
 
-Personal website/blog.
+Personal website and blog.
 
-## Stack
+## Development
 
-- Astro
-- Tailwind
-- Prettier
-- ESLint
+```sh
+npm install
+npm run dev
+```
 
-## Inspirations
+Site runs at [http://localhost:4321](http://localhost:4321).
 
-- https://astro-nano-demo.vercel.app/
+| Command           | What it does                 |
+| ----------------- | ---------------------------- |
+| `npm run dev`     | Start the local server       |
+| `npm run build`   | Production build to `./dist` |
+| `npm run preview` | Preview the production build |
+
+## Inspiration
+
+- [Astro Nano](https://astro-nano-demo.vercel.app/)
