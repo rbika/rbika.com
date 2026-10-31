@@ -1,11 +1,5 @@
 export type Theme = 'theme-light' | 'dark' | 'system';
 
-export const THEME_OPTIONS = [
-  { value: 'theme-light', label: 'Light' },
-  { value: 'dark', label: 'Dark' },
-  { value: 'system', label: 'System' },
-] as const;
-
 export function storedToState(stored: string | null): Theme {
   if (stored === 'dark') return 'dark';
   if (stored === 'light') return 'theme-light';

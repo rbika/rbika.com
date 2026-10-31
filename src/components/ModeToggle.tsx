@@ -1,5 +1,3 @@
-import { RiMoonLine, RiSunLine } from '@remixicon/react';
-
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -8,27 +6,24 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { useTheme } from '@/hooks/useTheme';
+import { THEME_OPTIONS, themeOption } from '@/lib/theme-options';
 
 export function ModeToggle() {
-  const { setTheme } = useTheme();
+  const { theme, setTheme } = useTheme();
+  const CurrentIcon = themeOption(theme).icon;
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger render={<Button variant="outline" size="icon-sm" />}>
-        <RiSunLine className="size-[1rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
-        <RiMoonLine className="absolute size-[1rem] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
+        <CurrentIcon />
         <span className="sr-only">Toggle theme</span>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuItem onClick={() => setTheme('theme-light')}>
-          Light
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme('dark')}>
-          Dark
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme('system')}>
-          System
-        </DropdownMenuItem>
+        {THEME_OPTIONS.map(({ value, label, icon: Icon }) => (
+          <DropdownMenuItem key={value} onClick={() => setTheme(value)}>
+            {label}
+          </DropdownMenuItem>
+        ))}
       </DropdownMenuContent>
     </DropdownMenu>
   );

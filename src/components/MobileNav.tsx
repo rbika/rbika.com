@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { RiCloseLine, RiMenuLine } from '@remixicon/react';
-import { cn } from 'cn';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -13,7 +12,7 @@ import {
 } from '@/components/ui/drawer';
 import { useTheme } from '@/hooks/useTheme';
 import { NAV_ITEMS, isCurrentPath, navItemClass } from '@/lib/nav';
-import { THEME_OPTIONS } from '@/lib/theme';
+import { THEME_OPTIONS } from '@/lib/theme-options';
 
 const wordmarkClass =
   'text-[22px] font-bold tracking-widest text-zinc-800 dark:text-white';
@@ -68,22 +67,26 @@ export function MobileNav({ pathname }: MobileNavProps) {
                 );
               })}
             </nav>
-            <div className="mt-8 flex flex-col gap-4 pb-7 text-[15px]">
-              <p className="opacity-50">Theme</p>
-              {THEME_OPTIONS.map(({ value, label }) => {
+            <div
+              className="mt-8 flex gap-2 pb-7"
+              role="radiogroup"
+              aria-label="Theme"
+            >
+              {THEME_OPTIONS.map(({ value, label, icon: Icon }) => {
                 const current = theme === value;
                 return (
-                  <button
+                  <Button
                     key={value}
                     type="button"
-                    className={cn(
-                      'bg-transparent p-0 text-left text-[15px]',
-                      navItemClass(current),
-                    )}
+                    size="icon-sm"
+                    variant={current ? 'outline' : 'ghost'}
+                    role="radio"
+                    aria-checked={current}
                     onClick={() => setTheme(value)}
                   >
-                    {label}
-                  </button>
+                    <Icon />
+                    <span className="sr-only">{label}</span>
+                  </Button>
                 );
               })}
             </div>
