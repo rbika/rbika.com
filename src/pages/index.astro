@@ -2,26 +2,39 @@
 import { getCollection } from 'astro:content';
 import PageLayout from '../layouts/PageLayout.astro';
 import '../styles/global.css';
-import xTwitterIcon from '../images/x-twitter.svg';
-import githubIcon from '../images/github.svg';
-import RssIcon from '../images/square-rss.svg';
-import PostsListItem from '@components/PostsListItem.astro';
+import FeaturedPostsListItem from '@components/FeaturedPostsListItem.astro';
 import { formatDate } from '../utils.ts';
+import { cn } from 'cn';
+import { buttonVariants } from '@components/ui/button';
+import {
+  RiArrowRightLine,
+  RiGithubFill,
+  RiRssFill,
+  RiTwitterXFill,
+} from '@remixicon/react';
 
-const posts = await getCollection('blog');
+const posts = await getCollection('blog', (post) => post.data.featured);
 const sortedPosts = posts.sort(
   (a, b) => b.data.date.getTime() - a.data.date.getTime(),
 );
 const socialLinks = [
   {
-    label: 'X / Twitter',
-    icon: xTwitterIcon,
+    label: 'X/Twitter',
+    icon: RiTwitterXFill,
+    iconClass: 'size-[16px]!',
     url: 'https://x.com/rbika',
   },
   {
     label: 'Github',
-    icon: githubIcon,
+    icon: RiGithubFill,
+    iconClass: 'size-[18px]!',
     url: 'https://github.com/rbika',
+  },
+  {
+    label: 'RSS',
+    icon: RiRssFill,
+    iconClass: 'size-[16px]!',
+    url: '/rss.xml',
   },
 ];
 ---
@@ -33,19 +46,22 @@ const socialLinks = [
     >/<span class="font-semibold">Bikas</span>.
   </p>
 
-  <ul class="mt-4 flex justify-center gap-10 sm:justify-start">
+  <ul class="mt-4 flex gap-2">
     {
       socialLinks.map((item) => {
-        const { label, icon: Icon, url } = item;
+        const { label, icon: Icon, iconClass, url } = item;
         return (
           <li>
             <a
               href={url}
               target="_blank"
               rel="noreferrer"
-              class="focus:text-primary flex items-center gap-2 no-underline"
+              class={cn(
+                'focus:text-primary flex items-center gap-2! no-underline',
+                buttonVariants({ variant: 'outline', size: 'sm' }),
+              )}
             >
-              <Icon class="h-[22px] w-[22px] sm:h-[20px] sm:w-[20px]" />
+              <Icon className={iconClass} />
               <span class="hidden text-sm sm:block" aria-label={label}>
                 {label}
               </span>
@@ -57,21 +73,22 @@ const socialLinks = [
   </ul>
 
   <div
-    class="mt-10 mb-5 flex items-center gap-2 text-xl font-semibold text-zinc-800 dark:text-white"
+    class="mt-10 mb-5 flex items-end justify-between gap-2 font-semibold text-zinc-800 dark:text-white"
   >
-    Posts
-    <a href="/rss.xml" target="_blank">
-      <RssIcon
-        class="h-[22px] w-[22px] text-black/75 duration-300 hover:text-black sm:h-[20px] sm:w-[20px] dark:text-white/75 hover:dark:text-white"
-      />
-    </a>
+    Featured posts
+
+    <a
+      href="/blog"
+      class="flex items-center gap-1 text-sm font-normal text-zinc-500 dark:text-zinc-400"
+      >All posts <RiArrowRightLine className="size-[16px]!" /></a
+    >
   </div>
 
-  <ul class="border-t border-zinc-300 dark:border-zinc-700">
+  <ul class="border-t border-zinc-300 dark:border-zinc-800">
     {
       sortedPosts.map((post) => (
-        <li class="border-b border-zinc-300 dark:border-zinc-700">
-          <PostsListItem
+        <li class="border-b border-zinc-300 dark:border-zinc-800">
+          <FeaturedPostsListItem
             url={post.id}
             title={post.data.title}
             tags={post.data.tags}
