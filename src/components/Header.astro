@@ -1,6 +1,23 @@
 ---
 import Container from './Container.astro';
 import { ModeToggle } from '@/components/ModeToggle';
+import { cn } from 'cn';
+
+const pathname =
+  Astro.url.pathname !== '/' && Astro.url.pathname.endsWith('/')
+    ? Astro.url.pathname.slice(0, -1)
+    : Astro.url.pathname;
+
+const items = [
+  { href: '/', label: 'Home' },
+  { href: '/blog', label: 'Blog' },
+  { href: '/uses', label: 'Uses' },
+];
+
+const isCurrent = (href: string) =>
+  href === '/'
+    ? pathname === '/'
+    : pathname === href || pathname.startsWith(`${href}/`);
 ---
 
 <header>
@@ -14,8 +31,25 @@ import { ModeToggle } from '@/components/ModeToggle';
       </a>
       <div class="flex items-center gap-5">
         <nav class="flex justify-center gap-5 text-[15px]">
-          <a href="/" class="duration-300 hover:text-white">Home</a>
-          <a href="/uses" class="duration-300 hover:text-white">Uses</a>
+          {
+            items.map(({ href, label }) => {
+              const current = isCurrent(href);
+              return (
+                <a
+                  href={href}
+                  class={cn(
+                    'duration-300 hover:opacity-100',
+                    current
+                      ? 'underline underline-offset-4 opacity-100'
+                      : 'opacity-80',
+                  )}
+                  aria-current={current ? 'page' : undefined}
+                >
+                  {label}
+                </a>
+              );
+            })
+          }
         </nav>
         <ModeToggle client:load />
       </div>
