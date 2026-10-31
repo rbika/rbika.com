@@ -1,23 +1,13 @@
 ---
 import Container from './Container.astro';
+import { MobileNav } from '@/components/MobileNav';
 import { ModeToggle } from '@/components/ModeToggle';
-import { cn } from 'cn';
+import { NAV_ITEMS, isCurrentPath, navItemClass } from '@/lib/nav';
 
 const pathname =
   Astro.url.pathname !== '/' && Astro.url.pathname.endsWith('/')
     ? Astro.url.pathname.slice(0, -1)
     : Astro.url.pathname;
-
-const items = [
-  { href: '/', label: 'Home' },
-  { href: '/blog', label: 'Blog' },
-  { href: '/uses', label: 'Uses' },
-];
-
-const isCurrent = (href: string) =>
-  href === '/'
-    ? pathname === '/'
-    : pathname === href || pathname.startsWith(`${href}/`);
 ---
 
 <header>
@@ -29,20 +19,15 @@ const isCurrent = (href: string) =>
       >
         R Bika(s)
       </a>
-      <div class="flex items-center gap-5">
+      <div class="hidden items-center gap-5 sm:flex">
         <nav class="flex justify-center gap-5 text-[15px]">
           {
-            items.map(({ href, label }) => {
-              const current = isCurrent(href);
+            NAV_ITEMS.map(({ href, label }) => {
+              const current = isCurrentPath(pathname, href);
               return (
                 <a
                   href={href}
-                  class={cn(
-                    'duration-300 hover:opacity-100',
-                    current
-                      ? 'underline underline-offset-4 opacity-100'
-                      : 'opacity-80',
-                  )}
+                  class={navItemClass(current)}
                   aria-current={current ? 'page' : undefined}
                 >
                   {label}
@@ -53,6 +38,7 @@ const isCurrent = (href: string) =>
         </nav>
         <ModeToggle client:load />
       </div>
+      <MobileNav client:load pathname={pathname} />
     </div>
   </Container>
 </header>
