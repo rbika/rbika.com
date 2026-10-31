@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { RiMoonLine, RiSunLine } from '@remixicon/react';
 
 import { Button } from '@/components/ui/button';
@@ -8,35 +7,10 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-
-type Theme = 'theme-light' | 'dark' | 'system';
-
-function storedToState(stored: string | null): Theme {
-  if (stored === 'dark') return 'dark';
-  if (stored === 'system') return 'system';
-  return 'theme-light';
-}
-
-function applyClass(theme: Theme) {
-  const isDark =
-    theme === 'dark' ||
-    (theme === 'system' &&
-      window.matchMedia('(prefers-color-scheme: dark)').matches);
-  document.documentElement.classList[isDark ? 'add' : 'remove']('dark');
-}
+import { useTheme } from '@/hooks/useTheme';
 
 export function ModeToggle() {
-  const [theme, setThemeState] = React.useState<Theme>('theme-light');
-
-  React.useEffect(() => {
-    setThemeState(storedToState(localStorage.getItem('theme')));
-  }, []);
-
-  function setTheme(next: Theme) {
-    localStorage.setItem('theme', next === 'theme-light' ? 'light' : next);
-    setThemeState(next);
-    applyClass(next);
-  }
+  const { setTheme } = useTheme();
 
   return (
     <DropdownMenu>
