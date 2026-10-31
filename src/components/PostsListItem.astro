@@ -1,4 +1,6 @@
 ---
+import { getTag } from '../content/tags';
+
 interface Props {
   url: string;
   title: string;
@@ -7,24 +9,22 @@ interface Props {
 }
 
 const { url, title, tags, date } = Astro.props;
+const tagLabels = tags.map((slug) => getTag(slug).label);
 ---
 
 <a
   href={`/blog/${url}`}
-  class="flex flex-col justify-between gap-2 pt-4 pb-5 no-underline transition-colors duration-300 sm:gap-1"
+  class="flex flex-col justify-between gap-2 pt-4 pb-5 no-underline sm:gap-1"
 >
-  <div class="flex flex-col justify-between sm:flex-row">
+  <span class="flex flex-col justify-between sm:flex-row">
     <span>{title}</span>
     <span class="text-sm">{date}</span>
-  </div>
-  <div class="flex flex-wrap gap-x-2 gap-y-1 text-xs">
+  </span>
+  <span class="flex flex-wrap gap-x-2 gap-y-1 text-xs">
     {
-      tags.map((tag: string, index: number) => (
-        <span class="flex items-center justify-center font-mono text-[11px] opacity-70">
-          {tag}
-          {index != tags.length - 1 && <span>,</span>}
-        </span>
+      tagLabels.map((label) => (
+        <span class="font-mono text-[11px] opacity-70">{label}</span>
       ))
     }
-  </div>
+  </span>
 </a>

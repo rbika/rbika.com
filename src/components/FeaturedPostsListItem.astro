@@ -1,0 +1,20 @@
+---
+interface Props {
+  url: string;
+  title: string;
+  tags: string[];
+  date: string;
+}
+
+const { url, title, date } = Astro.props;
+---
+
+<a
+  href={`/blog/${url}`}
+  class="flex flex-col justify-between gap-2 py-4 no-underline sm:gap-1"
+>
+  <span class="flex flex-col justify-between sm:flex-row">
+    <span>{title}</span>
+    <span class="text-sm">{date}</span>
+  </span>
+</a>
