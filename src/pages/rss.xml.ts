@@ -14,12 +14,19 @@ export async function GET(context: Context) {
     title: "R Bika(s)'s Blog ",
     description: 'A blog about web development and productivity tips',
     site: context.site,
-    items: sortedPosts.map((post) => ({
-      title: post.data.title,
-      pubDate: post.data.date,
-      description: post.data.description,
-      link: `/blog/${post.id}/`,
-    })),
+    items: sortedPosts.map((post) => {
+      const link = new URL(
+        `/blog/${post.id}/?utm_source=rss`,
+        context.site,
+      ).href;
+
+      return {
+        title: post.data.title,
+        pubDate: post.data.date,
+        description: `${post.data.description}<p><a href="${link}">Continue reading…</a></p>`,
+        link,
+      };
+    }),
     customData: `
       <language>en-us</language>
       <category>Web Development</category>
