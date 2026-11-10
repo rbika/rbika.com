@@ -1,0 +1,50 @@
+---
+import { RiArrowRightUpLine } from '@remixicon/react';
+import type { Project } from '../content/projects';
+
+interface Props {
+  project: Project;
+}
+
+const { project } = Astro.props;
+const { name, description, githubUrl, websiteUrl } = project;
+---
+
+<div class="flex flex-col justify-between gap-2 pt-4 pb-5 sm:gap-2">
+  <div class="flex flex-col justify-between sm:flex-row">
+    <span>{name}</span>
+    <ul class="flex items-center gap-3 text-sm">
+      {
+        githubUrl && (
+          <li>
+            <a
+              href={githubUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-0.5 no-underline"
+            >
+              Github
+              <RiArrowRightUpLine className="size-3" />
+            </a>
+          </li>
+        )
+      }
+      {
+        websiteUrl && (
+          <li>
+            <a
+              href={websiteUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-0.5 no-underline"
+            >
+              Website
+              <RiArrowRightUpLine className="size-3" />
+            </a>
+          </li>
+        )
+      }
+    </ul>
+  </div>
+  <p class="text-sm opacity-70">{description}</p>
+</div>
