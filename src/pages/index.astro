@@ -1,22 +1,10 @@
 ---
-import { getCollection } from 'astro:content';
 import PageLayout from '../layouts/PageLayout.astro';
 import '../styles/global.css';
-import FeaturedPostsListItem from '@components/FeaturedPostsListItem.astro';
-import { formatDate } from '../utils.ts';
 import { cn } from 'cn';
 import { buttonVariants } from '@components/ui/button';
-import {
-  RiArrowRightLine,
-  RiGithubFill,
-  RiRssFill,
-  RiTwitterXFill,
-} from '@remixicon/react';
+import { RiGithubFill, RiRssFill, RiTwitterXFill } from '@remixicon/react';
 
-const posts = await getCollection('blog', (post) => post.data.featured);
-const sortedPosts = posts.sort(
-  (a, b) => b.data.date.getTime() - a.data.date.getTime(),
-);
 const socialLinks = [
   {
     label: 'X/Twitter',
@@ -40,62 +28,51 @@ const socialLinks = [
 ---
 
 <PageLayout title="" description="Front-end developer.">
-  <p>
-    Hi, my name is Rafael but you can call me <span class="font-semibold"
-      >Bika</span
-    >/<span class="font-semibold">Bikas</span>.
-  </p>
+  <div class="flex flex-col gap-6">
+    <p>
+      Hi, my name is Rafael but you can call me <span class="font-semibold"
+        >Bika</span
+      >/<span class="font-semibold">Bikas</span>.
+    </p>
 
-  <ul class="mt-4 flex gap-2">
-    {
-      socialLinks.map((item) => {
-        const { label, icon: Icon, iconClass, url } = item;
-        return (
-          <li>
-            <a
-              href={url}
-              target="_blank"
-              rel="noreferrer"
-              class={cn(
-                'focus:text-primary flex items-center gap-2! no-underline',
-                buttonVariants({ variant: 'outline', size: 'sm' }),
-              )}
-            >
-              <Icon className={iconClass} />
-              <span class="hidden text-sm sm:block" aria-label={label}>
-                {label}
-              </span>
-            </a>
-          </li>
-        );
-      })
-    }
-  </ul>
+    <p>
+      I occasionally write about web development and productivity tips on my <a
+        href="/blog"
+        class="underline underline-offset-3">blog</a
+      >. I also enjoy building small <a
+        href="/projects"
+        class="underline underline-offset-3">projects</a
+      >, either for fun or to make everyday tasks easier. If you're curious
+      about the apps and tools I use, you can find them on my <a
+        href="/uses"
+        class="underline underline-offset-3">Uses</a
+      > page.
+    </p>
 
-  <div
-    class="mt-10 mb-5 flex items-end justify-between gap-2 font-semibold text-zinc-800 dark:text-white"
-  >
-    Featured posts
-
-    <a
-      href="/blog"
-      class="flex items-center gap-1 text-sm font-normal text-zinc-500 dark:text-zinc-400"
-      >All posts <RiArrowRightLine className="size-[16px]!" /></a
-    >
+    <ul class="mt-4 flex gap-2">
+      {
+        socialLinks.map((item) => {
+          const { label, icon: Icon, iconClass, url } = item;
+          return (
+            <li>
+              <a
+                href={url}
+                target="_blank"
+                rel="noreferrer"
+                class={cn(
+                  'focus:text-primary flex items-center gap-2! no-underline',
+                  buttonVariants({ variant: 'outline', size: 'sm' }),
+                )}
+              >
+                <Icon className={iconClass} />
+                <span class="hidden text-sm sm:block" aria-label={label}>
+                  {label}
+                </span>
+              </a>
+            </li>
+          );
+        })
+      }
+    </ul>
   </div>
-
-  <ul class="border-t border-zinc-300 dark:border-zinc-800">
-    {
-      sortedPosts.map((post) => (
-        <li class="border-b border-zinc-300 dark:border-zinc-800">
-          <FeaturedPostsListItem
-            url={post.id}
-            title={post.data.title}
-            tags={post.data.tags}
-            date={formatDate(post.data.date)}
-          />
-        </li>
-      ))
-    }
-  </ul>
 </PageLayout>
